@@ -26,6 +26,7 @@ from vultron.as_vocab.base.objects.actors import as_Actor
 from vultron.as_vocab.base.utils import exclude_if_none
 from vultron.as_vocab.objects.base import VultronObject
 from vultron.as_vocab.objects.case_status import ParticipantStatus
+from vultron.bt.report_management.states import RM
 from vultron.bt.roles.states import CVDRoles as CVDRole
 
 
@@ -85,11 +86,20 @@ class CaseParticipant(VultronObject):
             # if they didn't specify a role, put NO_ROLE here
             self.case_roles.append(CVDRole.NO_ROLE)
 
-        if self.actor is not None:
-            self.name = self.actor.name
+        if self.name is None:
+            if self.actor is not None:
+                if hasattr(self.actor, "name"):
+                    self.name = self.actor.name
+                else:
+                    self.name = self.actor
 
         if len(self.participant_status) == 0:
-            self.participant_status.append(ParticipantStatus())
+            self.participant_status.append(
+                ParticipantStatus(
+                    context=self.context,
+                    actor=self.actor,
+                )
+            )
 
         if len(self.case_roles) == 0:
             self.case_roles.append(CVDRole.NO_ROLE)
@@ -128,6 +138,13 @@ class ReporterParticipant(CaseParticipant):
     def __post_init__(self):
         super().__post_init__()
         self.add_role(CVDRole.REPORTER, reset=True)
+        # by definition, to be a reporter, you must have accepted the report
+        pstatus = ParticipantStatus(
+            context=self.context,
+            actor=self.actor,
+            rm_state=RM.ACCEPTED,
+        )
+        self.participant_status = [pstatus]
 
 
 @activitystreams_object
@@ -145,6 +162,14 @@ class FinderReporterParticipant(CaseParticipant):
         super().__post_init__()
         self.add_role(CVDRole.FINDER, reset=True)
         self.add_role(CVDRole.REPORTER, reset=False)
+
+        # by definition, to be a reporter, you must have accepted the report
+        pstatus = ParticipantStatus(
+            context=self.context,
+            actor=self.actor,
+            rm_state=RM.ACCEPTED,
+        )
+        self.participant_status = [pstatus]
 
 
 @activitystreams_object

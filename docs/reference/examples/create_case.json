@@ -1,0 +1,31 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Create",
+  "id": "https://for.example/d4aa7832-3984-43ef-8877-fe29e00b8110",
+  "name": "https://vultron.example/organizations/vendor Create VENDOR Case #20991514",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "actor": "https://vultron.example/organizations/vendor",
+  "object": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": null,
+    "id": "https://vultron.example/cases/VDR-20991514",
+    "name": "VENDOR Case #20991514",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "caseStatus": [
+      {
+        "@context": "https://www.w3.org/ns/activitystreams",
+        "type": "CaseStatus",
+        "id": "https://for.example/2a275e4a-8acb-4a8c-8ba4-9955e90b9172",
+        "name": "EMBARGO_MANAGEMENT_NONE pxa",
+        "context": "https://vultron.example/cases/VDR-20991514",
+        "published": "2024-01-08T19:45:35+00:00",
+        "updated": "2024-01-08T19:45:35+00:00",
+        "emState": "EMBARGO_MANAGEMENT_NONE",
+        "pxaState": "pxa"
+      }
+    ],
+    "activeEmbargo": null
+  }
+}

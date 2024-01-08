@@ -1,0 +1,22 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Offer",
+  "id": "https://for.example/3a578b28-1709-4e19-8ed1-ffeaeccc98b1",
+  "name": "https://vultron.example/users/finn Offer FDR-8675309",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "to": "https://vultron.example/organizations/vendor",
+  "actor": "https://vultron.example/users/finn",
+  "object": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "VulnerabilityReport",
+    "id": "https://vultron.example/reports/FDR-8675309",
+    "name": "FDR-8675309",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "content": "I found a vulnerability!",
+    "attributedTo": [
+      "https://vultron.example/users/finn"
+    ]
+  }
+}

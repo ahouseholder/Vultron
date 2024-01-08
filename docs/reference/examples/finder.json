@@ -1,0 +1,32 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Person",
+  "id": "https://vultron.example/users/finn",
+  "name": "Finn der Vul",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "inbox": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "OrderedCollection",
+    "id": "https://for.example/7dfb9a0e-4d5e-4878-91f3-7b986c0029af",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "items": [],
+    "current": 0
+  },
+  "outbox": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "OrderedCollection",
+    "id": "https://for.example/3e9635f3-b7ef-4c76-9e37-bd61ce01d16f",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "items": [],
+    "current": 0
+  },
+  "following": null,
+  "followers": null,
+  "liked": null,
+  "streams": null,
+  "preferredUsername": null,
+  "endpoints": null
+}

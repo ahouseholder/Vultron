@@ -1,0 +1,39 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Add",
+  "id": "https://for.example/b7c8c585-146c-4279-af0b-ca04037bee82",
+  "name": "https://vultron.example/organizations/vendor Add VendorCo to https://vultron.example/cases/VDR-20991514",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "actor": "https://vultron.example/organizations/vendor",
+  "target": "https://vultron.example/cases/VDR-20991514",
+  "object": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "CaseParticipant",
+    "id": "https://vultron.example/cases/VDR-20991514/participants/vendor",
+    "name": "VendorCo",
+    "context": "https://vultron.example/cases/VDR-20991514",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "actor": "https://vultron.example/organizations/vendor",
+    "caseRoles": [
+      "VENDOR"
+    ],
+    "participantStatus": [
+      {
+        "@context": "https://www.w3.org/ns/activitystreams",
+        "type": "ParticipantStatus",
+        "id": "https://for.example/287128d4-1ae1-4dd4-a4a6-bc5a1bd44984",
+        "name": "REPORT_MANAGEMENT_RECEIVED Vfd",
+        "context": "https://vultron.example/cases/VDR-20991514",
+        "published": "2024-01-08T19:45:35+00:00",
+        "updated": "2024-01-08T19:45:35+00:00",
+        "actor": "https://vultron.example/organizations/vendor",
+        "rmState": "REPORT_MANAGEMENT_RECEIVED",
+        "vfdState": "Vfd",
+        "caseEngagement": true,
+        "embargoAdherence": true
+      }
+    ]
+  }
+}

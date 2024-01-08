@@ -105,7 +105,7 @@ class ParticipantStatus(VultronObject):
             }
         },
     )
-    case_engagement: bool = False
+    case_engagement: bool = True
     embargo_adherence: bool = True
     tracking_id: Optional[str] = field(
         metadata=config(exclude=exclude_if_none), default=None

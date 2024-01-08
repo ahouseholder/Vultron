@@ -1,0 +1,32 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Organization",
+  "id": "https://vultron.example/organizations/vendor",
+  "name": "VendorCo",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "inbox": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "OrderedCollection",
+    "id": "https://for.example/8eaed3fe-8dc4-41c7-8ab0-936f64b714b7",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "items": [],
+    "current": 0
+  },
+  "outbox": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "OrderedCollection",
+    "id": "https://for.example/d46b940b-9609-46f2-831d-448a20f9ca51",
+    "published": "2024-01-08T19:45:35+00:00",
+    "updated": "2024-01-08T19:45:35+00:00",
+    "items": [],
+    "current": 0
+  },
+  "following": null,
+  "followers": null,
+  "liked": null,
+  "streams": null,
+  "preferredUsername": null,
+  "endpoints": null
+}

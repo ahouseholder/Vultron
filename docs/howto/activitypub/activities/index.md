@@ -22,9 +22,13 @@ A full mapping of Vultron to ActivityStreams is available in the
     confusion. Each activity type / object / target combination should have a
     single meaning within the protocol.
 
-{% include-markdown "./_report_vulnerability.md" heading-offset=1 %}
+For documentation purposes, we have divided the Vultron AS activities by user flow.
+Each of these user flows shows the activities that are used to perform a specific
+task. The user flows are:
 
-{% include-markdown "./_initialize_case.md" heading-offset=1 %}
+- [Reporting a Vulnerability](./report_vulnerability.md)
+- [Initializing a Case](./initialize_case.md)
+
 {% include-markdown "./_manage_case.md" heading-offset=1 %}
 {% include-markdown "./_transfer_ownership.md" heading-offset=1 %}
 

@@ -1,0 +1,10 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Read",
+  "id": "https://for.example/78f9fa52-1a6e-4cb9-aa0a-4e54664d8b2f",
+  "name": "https://vultron.example/organizations/vendor Read https://vultron.example/reports/FDR-8675309",
+  "published": "2024-01-08T19:45:35+00:00",
+  "updated": "2024-01-08T19:45:35+00:00",
+  "actor": "https://vultron.example/organizations/vendor",
+  "object": "https://vultron.example/reports/FDR-8675309"
+}
