@@ -79,14 +79,15 @@ class MyTestCase(unittest.TestCase):
 
             # check json
             _json = _object.to_json()
-            self.assertIn("object", _json)
-            self.assertIn("type", _json)
-            self.assertIn("target", _json)
+            self.assertIn('"object"', _json)
+            self.assertIn('"type"', _json)
+            self.assertIn('"target"', _json)
 
             # check json loads back in correctly
             reloaded = json.loads(_json)
-            # the type should be Reject, not RejectActorRecommendation
-            self.assertEqual(reloaded["type"], expect_type)
+
+            # the type should be Reject, not RejectActorRecommendation, etc.
+            self.assertEqual(reloaded["type"], expect_type, _json)
             self.assertEqual(reloaded["object"], json.loads(_actor.to_json()))
             self.assertEqual(reloaded["target"], json.loads(_case.to_json()))
 
