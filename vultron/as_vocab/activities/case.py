@@ -168,6 +168,7 @@ class RmEngageCase(as_Join):
     as_object: VulnerabilityCase
     """
 
+    as_type: str = field(default="Join", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -185,6 +186,7 @@ class RmDeferCase(as_Ignore):
     as_object: VulnerabilityCase
     """
 
+    as_type: str = field(default="Ignore", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -201,6 +203,7 @@ class RmCloseCase(as_Leave):
     as_object: VulnerabilityCase
     """
 
+    as_type: str = field(default="Leave", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -214,6 +217,7 @@ class OfferCaseOwnershipTransfer(as_Offer):
     target: as_Actor
     """
 
+    as_type: str = field(default="Offer", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -231,6 +235,7 @@ class AcceptCaseOwnershipTransfer(as_Accept):
     - in_reply_to: the original offer
     """
 
+    as_type: str = field(default="Accept", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -247,6 +252,7 @@ class RejectCaseOwnershipTransfer(as_Reject):
     context: the original offer
     """
 
+    as_type: str = field(default="Reject", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -264,7 +270,7 @@ class RmInviteToCase(as_Invite):
     as_object: VulnerabilityCase
     """
 
-    as_type: str = "Invite"
+    as_type: str = field(default="Invite", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -280,7 +286,7 @@ class RmAcceptInviteToCase(as_Accept):
     in_reply_to: RmInviteToCase
     """
 
-    as_type: str = "Accept"
+    as_type: str = field(default="Accept", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -298,7 +304,7 @@ class RmRejectInviteToCase(as_Reject):
     `in_reply_to`: `RmInviteToCase`
     """
 
-    as_type: str = "Reject"
+    as_type: str = field(default="Reject", init=False)
     as_object: Optional[Union[VulnerabilityCase, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )

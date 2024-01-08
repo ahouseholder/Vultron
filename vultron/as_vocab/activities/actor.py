@@ -35,7 +35,7 @@ from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 class RecommendActor(as_Offer):
     """The actor is recommending another actor to a case."""
 
-    as_type = "Offer"
+    as_type: str = field(default="Offer", init=False)
     as_object: Optional[Union[as_Actor, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -52,7 +52,7 @@ class AcceptActorRecommendation(as_Accept):
     Should be followed by an RmInviteToCase activity targeted at the recommended actor.
     """
 
-    as_type = "Accept"
+    as_type: str = field(default="Accept", init=False)
     as_object: Optional[Union[as_Actor, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
@@ -67,7 +67,7 @@ class AcceptActorRecommendation(as_Accept):
 class RejectActorRecommendation(as_Reject):
     """The case owner is rejecting a recommendation to add an actor to the case."""
 
-    as_type = "Reject"
+    as_type: str = field(default="Reject", init=False)
     as_object: Optional[Union[as_Actor, as_Link]] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )

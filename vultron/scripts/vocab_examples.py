@@ -15,7 +15,14 @@ Provides tools for generating examples of Vultron ActivityStreams objects.
 #  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
-from vultron.as_vocab.activities.case import AddReportToCase, CreateCase
+from vultron.as_vocab.activities.case import (
+    AddNoteToCase,
+    AddReportToCase,
+    CreateCase,
+    RmCloseCase,
+    RmDeferCase,
+    RmEngageCase,
+)
 from vultron.as_vocab.activities.case_participant import AddParticipantToCase
 from vultron.as_vocab.activities.report import (
     RmCloseReport,
@@ -26,7 +33,9 @@ from vultron.as_vocab.activities.report import (
     RmValidateReport,
 )
 from vultron.as_vocab.base.base import as_Base
+from vultron.as_vocab.base.objects.activities.transitive import as_Undo
 from vultron.as_vocab.base.objects.actors import as_Organization, as_Person
+from vultron.as_vocab.base.objects.object_types import as_Note
 from vultron.as_vocab.objects.case_participant import (
     FinderReporterParticipant,
     VendorParticipant,
@@ -228,6 +237,39 @@ def add_finder_participant_to_case() -> AddParticipantToCase:
     return activity
 
 
+def engage_case() -> RmEngageCase:
+    _vendor = vendor()
+    _case = case()
+
+    activity = RmEngageCase(actor=_vendor.as_id, as_object=_case.as_id)
+    return activity
+
+
+def close_case() -> RmCloseCase:
+    _vendor = vendor()
+    _case = case()
+
+    activity = RmCloseCase(actor=_vendor.as_id, as_object=_case.as_id)
+    return activity
+
+
+def defer_case() -> RmDeferCase:
+    _vendor = vendor()
+    _case = case()
+
+    activity = RmDeferCase(actor=_vendor.as_id, as_object=_case.as_id)
+    return activity
+
+
+def reengage_case() -> as_Undo:
+    _vendor = vendor()
+    _case = case()
+    _deferral = defer_case()
+
+    activity = as_Undo(actor=_vendor.as_id, as_object=_deferral)
+    return activity
+
+
 def main():
     outdir = "../../docs/reference/examples"
 
@@ -293,6 +335,18 @@ def main():
     obj_to_file(participant, f"{outdir}/finder_participant.json")
     obj_to_file(activity, f"{outdir}/add_finder_participant_to_case.json")
 
+    # activity: vendor engages case
+    activity = engage_case()
+    obj_to_file(activity, f"{outdir}/engage_case.json")
+
+    # activity: vendor closes case
+    activity = close_case()
+    obj_to_file(activity, f"{outdir}/close_case.json")
+
+    # activity: vendor defers case
+    activity = defer_case()
+    obj_to_file(activity, f"{outdir}/defer_case.json")
+
     #
     # # vendor proposes a case embargo
     # end_time = datetime.datetime.now() + datetime.timedelta(days=45)
@@ -322,3 +376,24 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def note() -> as_Note:
+    _note = as_Note(
+        name="Note",
+        as_id=f"{case_base_url}/notes/1",
+        content="This is a note.",
+    )
+    return _note
+
+
+def add_note_to_case():
+    _finder = finder()
+    _case = case()
+    _note = note()
+
+    activity = AddNoteToCase(
+        actor=_finder.as_id, as_object=_note, target=_case.as_id
+    )
+
+    return activity

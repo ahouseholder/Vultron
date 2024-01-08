@@ -28,8 +28,8 @@ task. The user flows are:
 
 - [Reporting a Vulnerability](./report_vulnerability.md)
 - [Initializing a Case](./initialize_case.md)
+- [Managing a Case](./manage_case.md)
 
-{% include-markdown "./_manage_case.md" heading-offset=1 %}
 {% include-markdown "./_transfer_ownership.md" heading-offset=1 %}
 
 {% include-markdown "./_suggest_actor.md" heading-offset=1 %}

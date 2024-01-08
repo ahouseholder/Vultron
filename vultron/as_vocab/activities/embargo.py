@@ -112,6 +112,7 @@ class ChoosePreferredEmbargo(as_Question):
 
     # note: not specifying as_object here because Questions are intransitive
 
+    as_type: str = field(default="Question", init=False)
     any_of: Optional[Union[EmbargoEvent, as_Link]] = field(
         metadata=config(exclude=exclude_if_none), default=None
     )
