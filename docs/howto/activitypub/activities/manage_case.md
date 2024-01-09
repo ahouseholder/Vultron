@@ -53,13 +53,13 @@ flowchart TB
     CreateCase --> RmDeferCase
     RmDeferCase --> RmEngageCase
     RmDeferCase --> RmCloseCase
-    RmDeferCase --> RmReEngageCase    
-    RmInvalidateReport --> RmCloseCase
-    RmInvalidateReport -.-> RmCloseReport
+    RmDeferCase --> RmReEngageCase
+    RmInvalidateReport --> RmCloseReport
 ```
 
 {% include-markdown "./_submit_report.md" heading-offset=1 %}
 {% include-markdown "./_invalidate_report.md" heading-offset=1 %}
+
 {% include-markdown "./_validate_report.md" heading-offset=1 %}
 {% include-markdown "./_create_case.md" heading-offset=1 %}
 {% include-markdown "./_defer_case.md" heading-offset=1 %}
@@ -80,6 +80,7 @@ flowchart TB
     implementation choice for now.
 
 {% include-markdown "./_close_case.md" heading-offset=1 %}
+{% include-markdown "./_close_report.md" heading-offset=1 %}
 
 !!! tip "Close Case vs Close Report"
 
@@ -90,5 +91,3 @@ flowchart TB
     defined as subclasses of `as:Leave` to indicate that they are both
     activities that indicate that the actor's participation in the case or
     report has ended.
-
-{% include-markdown "./_close_report.md" heading-offset=1 %}
