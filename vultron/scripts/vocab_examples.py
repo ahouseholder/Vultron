@@ -16,12 +16,16 @@ Provides tools for generating examples of Vultron ActivityStreams objects.
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
 from vultron.as_vocab.activities.case import (
+    AcceptCaseOwnershipTransfer,
     AddNoteToCase,
     AddReportToCase,
     CreateCase,
+    OfferCaseOwnershipTransfer,
+    RejectCaseOwnershipTransfer,
     RmCloseCase,
     RmDeferCase,
     RmEngageCase,
+    UpdateCase,
 )
 from vultron.as_vocab.activities.case_participant import AddParticipantToCase
 from vultron.as_vocab.activities.report import (
@@ -397,3 +401,47 @@ def add_note_to_case():
     )
 
     return activity
+
+
+def coordinator():
+    _coordinator = as_Organization(
+        name="Coordinator LLC", as_id=f"{organization_base_url}/coordinator"
+    )
+    return _coordinator
+
+
+def offer_case_ownership_transfer():
+    _vendor = vendor()
+    _case = case()
+    _coordinator = coordinator()
+    _activity = OfferCaseOwnershipTransfer(
+        actor=_vendor.as_id, as_object=_case, target=_coordinator.as_id
+    )
+    return _activity
+
+
+def accept_case_ownership_transfer():
+    _case = case()
+    _coordinator = coordinator()
+    _vendor = vendor()
+    _activity = AcceptCaseOwnershipTransfer(
+        actor=_coordinator.as_id, as_object=_case, origin=_vendor.as_id
+    )
+    return _activity
+
+
+def reject_case_ownership_transfer():
+    _case = case()
+    _coordinator = coordinator()
+    _vendor = vendor()
+    _activity = RejectCaseOwnershipTransfer(
+        actor=_coordinator.as_id, as_object=_case, origin=_vendor.as_id
+    )
+    return _activity
+
+
+def update_case():
+    _case = case()
+    _vendor = vendor()
+    _activity = UpdateCase(actor=_vendor.as_id, as_object=_case)
+    return _activity

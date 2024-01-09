@@ -87,6 +87,7 @@ nav:
             - Reporting a Vulnerability: 'howto/activitypub/activities/report_vulnerability.md'
             - Initializing a Case: 'howto/activitypub/activities/initialize_case.md'
             - Managing a Case: 'howto/activitypub/activities/manage_case.md'
+            - Transferring a Case: 'howto/activitypub/activities/transfer_ownership.md'
       - EM and iCalendar: 'howto/em_icalendar.md'
       - General Notes: 'howto/general_implementation.md'
   - Reference:

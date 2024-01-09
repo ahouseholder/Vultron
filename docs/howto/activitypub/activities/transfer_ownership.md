@@ -28,3 +28,36 @@ flowchart LR
     OfferCaseOwnershipTransfer --> RejectCaseOwnershipTransfer
     AcceptCaseOwnershipTransfer --> UpdateCase
 ```
+
+## Offer Case Ownership Transfer
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import offer_case_ownership_transfer, json2md
+
+print(json2md(offer_case_ownership_transfer()))
+```
+
+## Accept Case Ownership Transfer
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import accept_case_ownership_transfer, json2md
+
+print(json2md(accept_case_ownership_transfer()))
+``` 
+
+## Reject Case Ownership Transfer
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import reject_case_ownership_transfer, json2md
+
+print(json2md(reject_case_ownership_transfer()))
+```
+
+## Update Case
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import update_case, json2md
+
+print(json2md(update_case()))
+```
+
