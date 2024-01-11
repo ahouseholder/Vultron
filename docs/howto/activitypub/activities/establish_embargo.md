@@ -1,7 +1,7 @@
 # Establishing an Embargo
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph as:Invite
         EmProposeEmbargo
     end
@@ -21,12 +21,13 @@ flowchart LR
         ActivateEmbargo
         AddEmbargoToCase
     end
-    EmProposeEmbargo --> EmAcceptEmbargo
+    EmProposeEmbargo --> a{Accept?}
+    a -->|y| EmAcceptEmbargo
+    a -->|n| EmRejectEmbargo
     EmProposeEmbargo --> ChoosePreferredEmbargo
-    ChoosePreferredEmbargo --> EmAcceptEmbargo
-    EmProposeEmbargo --> EmRejectEmbargo
-    ChoosePreferredEmbargo --> EmRejectEmbargo
-    EmAcceptEmbargo --> ActivateEmbargo
+    ChoosePreferredEmbargo --> a
+    AddEmbargoToCase --> ActivateEmbargo
+    EmAcceptEmbargo --> AddEmbargoToCase
     AddEmbargoToCase --> AnnounceEmbargo
     ActivateEmbargo --> AnnounceEmbargo
 ```

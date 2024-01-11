@@ -33,6 +33,18 @@ from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass(kw_only=True)
+class CreateParticipant(as_Create):
+    """Create a new CaseParticipant"""
+
+    as_type: str = field(default="Create", init=False)
+    as_object: Optional[Union[CaseParticipant, as_Link]] = field(
+        metadata=config(field_name="object"), default=None, repr=True
+    )
+    target: Optional[Union[VulnerabilityCase, as_Link]] = field(default=None)
+
+
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass(kw_only=True)
 class CreateStatusForParticipant(as_Create):
     """Create a new CaseStatus for a CaseParticipant"""
 

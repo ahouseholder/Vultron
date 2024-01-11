@@ -15,6 +15,11 @@ Provides tools for generating examples of Vultron ActivityStreams objects.
 #  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
+from vultron.as_vocab.activities.actor import (
+    AcceptActorRecommendation,
+    RecommendActor,
+    RejectActorRecommendation,
+)
 from vultron.as_vocab.activities.case import (
     AcceptCaseOwnershipTransfer,
     AddNoteToCase,
@@ -22,12 +27,18 @@ from vultron.as_vocab.activities.case import (
     CreateCase,
     OfferCaseOwnershipTransfer,
     RejectCaseOwnershipTransfer,
+    RmAcceptInviteToCase,
     RmCloseCase,
     RmDeferCase,
     RmEngageCase,
+    RmInviteToCase,
+    RmRejectInviteToCase,
     UpdateCase,
 )
-from vultron.as_vocab.activities.case_participant import AddParticipantToCase
+from vultron.as_vocab.activities.case_participant import (
+    AddParticipantToCase,
+    CreateParticipant,
+)
 from vultron.as_vocab.activities.report import (
     RmCloseReport,
     RmCreateReport,
@@ -41,6 +52,7 @@ from vultron.as_vocab.base.objects.activities.transitive import as_Undo
 from vultron.as_vocab.base.objects.actors import as_Organization, as_Person
 from vultron.as_vocab.base.objects.object_types import as_Note
 from vultron.as_vocab.objects.case_participant import (
+    CoordinatorParticipant,
     FinderReporterParticipant,
     VendorParticipant,
 )
@@ -99,19 +111,19 @@ def print_obj(obj: as_Base) -> None:
     print(obj.to_json(indent=2))
 
 
-def finder():
+def finder() -> as_Person:
     _finder = as_Person(name="Finn der Vul", as_id=f"{user_base_url}/finn")
     return _finder
 
 
-def vendor():
+def vendor() -> as_Organization:
     _vendor = as_Organization(
         name="VendorCo", as_id=f"{organization_base_url}/vendor"
     )
     return _vendor
 
 
-def report():
+def report() -> VulnerabilityReport:
     _finder = finder()
     report = VulnerabilityReport(
         name="FDR-8675309",
@@ -124,14 +136,14 @@ def report():
     return report
 
 
-def create_report():
+def create_report() -> RmCreateReport:
     _finder = finder()
     _report = report()
     activity = RmCreateReport(actor=_finder.as_id, as_object=_report)
     return activity
 
 
-def submit_report():
+def submit_report() -> RmSubmitReport:
     _finder = finder()
     _vendor = vendor()
     _report = report()
@@ -144,28 +156,44 @@ def submit_report():
 def read_report() -> RmReadReport:
     _report = report()
     _vendor = vendor()
-    activity = RmReadReport(actor=_vendor.as_id, as_object=_report.as_id)
+    activity = RmReadReport(
+        actor=_vendor.as_id,
+        as_object=_report.as_id,
+        content="We've read the report. We'll get back to you soon.",
+    )
     return activity
 
 
 def validate_report() -> RmValidateReport:
     _report = report()
     _vendor = vendor()
-    activity = RmValidateReport(actor=_vendor.as_id, as_object=_report.as_id)
+    activity = RmValidateReport(
+        actor=_vendor.as_id,
+        as_object=_report.as_id,
+        content="We've validated the report. We'll be creating a case shortly.",
+    )
     return activity
 
 
 def invalidate_report() -> RmInvalidateReport:
     _report = report()
     _vendor = vendor()
-    activity = RmInvalidateReport(actor=_vendor.as_id, as_object=_report.as_id)
+    activity = RmInvalidateReport(
+        actor=_vendor.as_id,
+        as_object=_report.as_id,
+        content="We're declining this report as invalid. If you have a reason we should reconsider, please let us know. Otherwise we'll be closing it shortly.",
+    )
     return activity
 
 
 def close_report() -> RmCloseReport:
     _report = report()
     _vendor = vendor()
-    activity = RmCloseReport(actor=_vendor.as_id, as_object=_report.as_id)
+    activity = RmCloseReport(
+        actor=_vendor.as_id,
+        as_object=_report.as_id,
+        content="We're closing this report.",
+    )
     return activity
 
 
@@ -181,7 +209,17 @@ def case() -> VulnerabilityCase:
 def create_case() -> CreateCase:
     _case = case()
     _vendor = vendor()
-    activity = CreateCase(actor=_vendor.as_id, as_object=_case)
+    _report = report()
+    _case.add_report(_report.as_id)
+    participant = VendorParticipant(actor=_vendor.as_id, name=_vendor.name)
+    _case.add_participant(participant)
+
+    activity = CreateCase(
+        actor=_vendor.as_id,
+        as_object=_case,
+        content="We've created a case from this report.",
+        context=_report.as_id,
+    )
     return activity
 
 
@@ -191,7 +229,10 @@ def add_report_to_case() -> AddReportToCase:
     _case = case()
 
     activity = AddReportToCase(
-        actor=_vendor.as_id, as_object=_report.as_id, target=_case.as_id
+        actor=_vendor.as_id,
+        as_object=_report.as_id,
+        target=_case.as_id,
+        content="We're adding this report to this case.",
     )
     return activity
 
@@ -217,7 +258,10 @@ def add_vendor_participant_to_case() -> AddParticipantToCase:
     _vendor_participant.participant_status = [_pstatus]
 
     activity = AddParticipantToCase(
-        actor=_vendor.as_id, as_object=_vendor_participant, target=_case.as_id
+        actor=_vendor.as_id,
+        as_object=_vendor_participant,
+        target=_case.as_id,
+        content="We're adding ourselves as a participant to this case.",
     )
     return activity
 
@@ -236,7 +280,32 @@ def add_finder_participant_to_case() -> AddParticipantToCase:
     )
 
     activity = AddParticipantToCase(
-        actor=_vendor.as_id, as_object=_finder_participant, target=_case.as_id
+        actor=_vendor.as_id,
+        as_object=_finder_participant,
+        target=_case.as_id,
+        content="We're adding the finder as a participant to this case.",
+    )
+    return activity
+
+
+def add_coordinator_participant_to_case() -> AddParticipantToCase:
+    _vendor = vendor()
+    _case = case()
+
+    _coordinator = coordinator()
+    shortname = _coordinator.as_id.split("/")[-1]
+    _coordinator_participant = CoordinatorParticipant(
+        as_id=f"{_case.as_id}/participants/{shortname}",
+        name=_coordinator.name,
+        actor=_coordinator.as_id,
+        context=_case.as_id,
+    )
+
+    activity = AddParticipantToCase(
+        actor=_vendor.as_id,
+        as_object=_coordinator_participant,
+        target=_case.as_id,
+        content="We're adding the coordinator as a participant to this case.",
     )
     return activity
 
@@ -245,7 +314,11 @@ def engage_case() -> RmEngageCase:
     _vendor = vendor()
     _case = case()
 
-    activity = RmEngageCase(actor=_vendor.as_id, as_object=_case.as_id)
+    activity = RmEngageCase(
+        actor=_vendor.as_id,
+        as_object=_case.as_id,
+        content="We're engaging this case.",
+    )
     return activity
 
 
@@ -253,7 +326,11 @@ def close_case() -> RmCloseCase:
     _vendor = vendor()
     _case = case()
 
-    activity = RmCloseCase(actor=_vendor.as_id, as_object=_case.as_id)
+    activity = RmCloseCase(
+        actor=_vendor.as_id,
+        as_object=_case.as_id,
+        content="We're closing this case.",
+    )
     return activity
 
 
@@ -261,7 +338,11 @@ def defer_case() -> RmDeferCase:
     _vendor = vendor()
     _case = case()
 
-    activity = RmDeferCase(actor=_vendor.as_id, as_object=_case.as_id)
+    activity = RmDeferCase(
+        actor=_vendor.as_id,
+        as_object=_case.as_id,
+        content="We're deferring this case.",
+    )
     return activity
 
 
@@ -270,7 +351,12 @@ def reengage_case() -> as_Undo:
     _case = case()
     _deferral = defer_case()
 
-    activity = as_Undo(actor=_vendor.as_id, as_object=_deferral)
+    activity = as_Undo(
+        actor=_vendor.as_id,
+        as_object=_deferral,
+        content="We're reengaging this case.",
+        context=_case.as_id,
+    )
     return activity
 
 
@@ -351,6 +437,10 @@ def main():
     activity = defer_case()
     obj_to_file(activity, f"{outdir}/defer_case.json")
 
+    # activity: vendor reengages case
+    activity = reengage_case()
+    obj_to_file(activity, f"{outdir}/reengage_case.json")
+
     #
     # # vendor proposes a case embargo
     # end_time = datetime.datetime.now() + datetime.timedelta(days=45)
@@ -391,57 +481,183 @@ def note() -> as_Note:
     return _note
 
 
-def add_note_to_case():
+def add_note_to_case() -> AddNoteToCase:
     _finder = finder()
     _case = case()
     _note = note()
 
     activity = AddNoteToCase(
-        actor=_finder.as_id, as_object=_note, target=_case.as_id
+        actor=_finder.as_id,
+        as_object=_note,
+        target=_case.as_id,
     )
 
     return activity
 
 
-def coordinator():
+def coordinator() -> as_Organization:
     _coordinator = as_Organization(
         name="Coordinator LLC", as_id=f"{organization_base_url}/coordinator"
     )
     return _coordinator
 
 
-def offer_case_ownership_transfer():
+def offer_case_ownership_transfer() -> OfferCaseOwnershipTransfer:
     _vendor = vendor()
     _case = case()
     _coordinator = coordinator()
     _activity = OfferCaseOwnershipTransfer(
-        actor=_vendor.as_id, as_object=_case, target=_coordinator.as_id
+        actor=_vendor.as_id,
+        as_object=_case,
+        target=_coordinator.as_id,
+        content=f"We're offering to transfer ownership of case {_case.name} to you.",
     )
     return _activity
 
 
-def accept_case_ownership_transfer():
+def accept_case_ownership_transfer() -> AcceptCaseOwnershipTransfer:
     _case = case()
     _coordinator = coordinator()
     _vendor = vendor()
     _activity = AcceptCaseOwnershipTransfer(
-        actor=_coordinator.as_id, as_object=_case, origin=_vendor.as_id
+        actor=_coordinator.as_id,
+        as_object=_case,
+        origin=_vendor.as_id,
+        content=f"We're accepting your offer to transfer ownership of case {_case.name} to us.",
     )
     return _activity
 
 
-def reject_case_ownership_transfer():
+def reject_case_ownership_transfer() -> RejectCaseOwnershipTransfer:
     _case = case()
     _coordinator = coordinator()
     _vendor = vendor()
     _activity = RejectCaseOwnershipTransfer(
-        actor=_coordinator.as_id, as_object=_case, origin=_vendor.as_id
+        actor=_coordinator.as_id,
+        as_object=_case,
+        origin=_vendor.as_id,
+        content=f"We're declining your offer to transfer ownership of case {_case.name} to us.",
     )
     return _activity
 
 
-def update_case():
+def update_case() -> UpdateCase:
     _case = case()
     _vendor = vendor()
-    _activity = UpdateCase(actor=_vendor.as_id, as_object=_case)
+    _activity = UpdateCase(
+        actor=_vendor.as_id,
+        as_object=_case,
+        content="We're updating the case to reflect a transfer of ownership.",
+    )
+    return _activity
+
+
+def recommend_actor() -> RecommendActor:
+    _case = case()
+    _finder = finder()
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _activity = RecommendActor(
+        actor=_finder.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_vendor.as_id,
+        content=f"I'm recommending we add {_coordinator.name} to the case.",
+    )
+    return _activity
+
+
+def accept_actor_recommendation() -> AcceptActorRecommendation:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _finder = finder()
+    _case = case()
+    _activity = AcceptActorRecommendation(
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_finder.as_id,
+        content=f"We're accepting your recommendation to add {_coordinator.name} to the case. "
+        "We'll reach out to them shortly.",
+    )
+    return _activity
+
+
+def reject_actor_recommendation() -> RejectActorRecommendation:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _finder = finder()
+    _case = case()
+    _activity = RejectActorRecommendation(
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_finder.as_id,
+        content=f"We're declining your recommendation to add {_coordinator.name} to the case. Thanks anyway.",
+    )
+    return _activity
+
+
+def rm_invite_to_case() -> RmInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmInviteToCase(
+        as_id=f"{_case.as_id}/invitation/1",
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        target=_case.as_id,
+        to=_coordinator.as_id,
+        content=f"We're inviting you to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def accept_invite_to_case() -> RmAcceptInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmAcceptInviteToCase(
+        actor=_coordinator.as_id,
+        as_object=_case.as_id,
+        to=_vendor.as_id,
+        in_reply_to=rm_invite_to_case().as_id,
+        content=f"We're accepting your invitation to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def reject_invite_to_case() -> RmRejectInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmRejectInviteToCase(
+        actor=_coordinator.as_id,
+        as_object=_case.as_id,
+        to=_vendor.as_id,
+        in_reply_to=rm_invite_to_case().as_id,
+        content=f"Thanks for the invitation, but we're declining to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def create_participant():
+    _vendor = vendor()
+    _case = case()
+    _coordinator = coordinator()
+    _coord_participant = CoordinatorParticipant(
+        as_id=f"{_case.as_id}/participants/{_coordinator.as_id}",
+        name=_coordinator.name,
+        actor=_coordinator.as_id,
+        context=_case.as_id,
+    )
+    _activity = CreateParticipant(
+        actor=_vendor.as_id,
+        as_object=_coord_participant,
+        target=_case.as_id,
+        content=f"We're adding {_coordinator.name} to the case.",
+    )
     return _activity

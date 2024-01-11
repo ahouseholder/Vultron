@@ -88,6 +88,8 @@ nav:
             - Initializing a Case: 'howto/activitypub/activities/initialize_case.md'
             - Managing a Case: 'howto/activitypub/activities/manage_case.md'
             - Transferring a Case: 'howto/activitypub/activities/transfer_ownership.md'
+            - Suggest an Actor for a Case: 'howto/activitypub/activities/suggest_actor.md'
+            - Invite an Actor to a Case: 'howto/activitypub/activities/invite_actor.md'
       - EM and iCalendar: 'howto/em_icalendar.md'
       - General Notes: 'howto/general_implementation.md'
   - Reference:

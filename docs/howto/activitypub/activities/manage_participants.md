@@ -7,7 +7,7 @@ participants, we've also included activities for removing participants.
 create, add, remove, status updates
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph as:Invite 
         RmInviteToCase
     end
@@ -28,14 +28,19 @@ flowchart LR
     subgraph as:Remove
         RemoveParticipantFromCase
     end
-    RmInviteToCase --> RmAcceptInviteToCase
-    RmInviteToCase --> RmRejectInviteToCase
+    RmInviteToCase --> a{Accept?}
+    a -->|y| RmAcceptInviteToCase
+    a -->|n| RmRejectInviteToCase
     RmAcceptInviteToCase --> RmCreateParticipant
+    
     RmCreateParticipantStatus --> AddStatusToParticipant
     RmCreateParticipant --> AddParticipantToCase
-    RmCreateParticipant --> RmCreateParticipantStatus
-    AddParticipantToCase --> RemoveParticipantFromCase
-    RemoveParticipantFromCase --> AddParticipantToCase
+    AddParticipantToCase --> s{Status?}
+    s -->|y| RmCreateParticipantStatus
+    s -->|n| r{Remove?}
+    AddStatusToParticipant --> r
+    r -->|y| RemoveParticipantFromCase
+    r -->|n| s
 ```
 
 !!! tip "Create or Add, once again"

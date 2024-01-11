@@ -11,7 +11,7 @@ case
 - between coordinators
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph as:Invite
         OfferCaseOwnershipTransfer
     end
@@ -24,8 +24,9 @@ flowchart LR
     subgraph as:Update
         UpdateCase
     end
-    OfferCaseOwnershipTransfer --> AcceptCaseOwnershipTransfer
-    OfferCaseOwnershipTransfer --> RejectCaseOwnershipTransfer
+    OfferCaseOwnershipTransfer --> a{Accept?}
+    a -->|y| AcceptCaseOwnershipTransfer
+    a -->|n| RejectCaseOwnershipTransfer
     AcceptCaseOwnershipTransfer --> UpdateCase
 ```
 

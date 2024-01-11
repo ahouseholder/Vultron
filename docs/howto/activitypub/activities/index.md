@@ -30,17 +30,13 @@ task. The user flows are:
 - [Initializing a Case](./initialize_case.md)
 - [Managing a Case](./manage_case.md)
 - [Transferring Case Ownership](./transfer_ownership.md)
+- [Suggest Actor for Case](./suggest_actor.md)
+- [Inviting an Actor to a Case](./invite_actor.md)
+- [Initializing a Participant](./initialize_participant.md)
+- [Managing Participants](./manage_participants.md)
+- [Establishing an Embargo](./establish_embargo.md)
+- [Managing an Embargo](./manage_embargo.md)
+- [Status Updates](./status_updates.md)
+- [Acknowledging a Report](./acknowledge.md)
+- [Error Handling](./error.md)
 
-{% include-markdown "./_suggest_actor.md" heading-offset=1 %}
-{% include-markdown "./_invite_actor.md" heading-offset=1 %}
-{% include-markdown "./_initialize_participant.md" heading-offset=1 %}
-{% include-markdown "./_manage_participants.md" heading-offset=1 %}
-
-{% include-markdown "./_establish_embargo.md" heading-offset=1 %}
-{% include-markdown "./_manage_embargo.md" heading-offset=1 %}
-
-{% include-markdown "./_status_updates.md" heading-offset=1 %}
-
-{% include-markdown "./_acknowledge.md" heading-offset=1 %}
-
-{% include-markdown "./_error.md" heading-offset=1 %}

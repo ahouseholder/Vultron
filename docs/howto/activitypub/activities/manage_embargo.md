@@ -13,7 +13,7 @@ It can also be terminated or removed from a case.
     a case.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph as:Invite
         EmProposeEmbargo
     end
@@ -33,14 +33,19 @@ flowchart LR
     subgraph as:Announce
         AnnounceEmbargo
     end 
-    
+    start([Start]) --> v{Active?}
+    v -->|y| t{Terminate?}
+    p{Propose?} -->|y| EmProposeEmbargo
     EmAcceptEmbargo --> AddEmbargoToCase
-    EmAcceptEmbargo --> ActivateEmbargo
-    AddEmbargoToCase --> EmProposeEmbargo
-    EmProposeEmbargo --> EmAcceptEmbargo
-    EmProposeEmbargo --> EmRejectEmbargo
-    EmRejectEmbargo --> EmProposeEmbargo
-    ActivateEmbargo --> RemoveEmbargoFromCase
-    ActivateEmbargo --> EmProposeEmbargo
-    RemoveEmbargoFromCase --> EmProposeEmbargo
+    EmProposeEmbargo --> a{Accept?}
+    EmRejectEmbargo --> v
+    a -->|y| EmAcceptEmbargo
+    a -->|n| EmRejectEmbargo
+    t -->|n| p
+    t{Terminate?} -->|y| RemoveEmbargoFromCase
+    ActivateEmbargo --> t
+    AddEmbargoToCase --> ActivateEmbargo
+    p -->|n| v
+    v -->|n| p
+    RemoveEmbargoFromCase --> p
 ```

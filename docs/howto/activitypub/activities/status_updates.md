@@ -4,7 +4,7 @@ Here we have a number of activities that are used to update the status of a
 case, or to add a comment to a case.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph as:Add
         AddNoteToCase
         AddStatusToCase
