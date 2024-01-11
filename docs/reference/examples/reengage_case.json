@@ -1,0 +1,22 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Undo",
+  "id": "https://for.example/1603aee7-d8b2-487e-a3f7-0dbf331d5921",
+  "name": "https://vultron.example/organizations/vendor Undo https://vultron.example/organizations/vendor Ignore https://vultron.example/cases/VDR-20991514",
+  "context": "https://vultron.example/cases/VDR-20991514",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We're reengaging this case.",
+  "actor": "https://vultron.example/organizations/vendor",
+  "object": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "asType": "Ignore",
+    "id": "https://for.example/0d4f5730-f6d2-44b7-bfed-76885947b2fe",
+    "name": "https://vultron.example/organizations/vendor Ignore https://vultron.example/cases/VDR-20991514",
+    "published": "2024-01-11T20:57:58+00:00",
+    "updated": "2024-01-11T20:57:58+00:00",
+    "content": "We're deferring this case.",
+    "actor": "https://vultron.example/organizations/vendor",
+    "object": "https://vultron.example/cases/VDR-20991514"
+  }
+}

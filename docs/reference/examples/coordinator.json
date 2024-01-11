@@ -1,14 +1,14 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
-  "type": "Person",
-  "id": "https://vultron.example/users/finn",
-  "name": "Finn der Vul",
+  "type": "Organization",
+  "id": "https://vultron.example/organizations/coordinator",
+  "name": "Coordinator LLC",
   "published": "2024-01-11T20:57:58+00:00",
   "updated": "2024-01-11T20:57:58+00:00",
   "inbox": {
     "@context": "https://www.w3.org/ns/activitystreams",
     "type": "OrderedCollection",
-    "id": "https://for.example/e49c48eb-38cd-459a-b11b-8694686d4188",
+    "id": "https://for.example/95da33cf-103e-4927-a75b-7ce36f658c9e",
     "published": "2024-01-11T20:57:58+00:00",
     "updated": "2024-01-11T20:57:58+00:00",
     "items": [],
@@ -17,7 +17,7 @@
   "outbox": {
     "@context": "https://www.w3.org/ns/activitystreams",
     "type": "OrderedCollection",
-    "id": "https://for.example/42b288bb-3797-438b-a418-bd5a4cb2a333",
+    "id": "https://for.example/3fa8d18b-d70a-49c5-b5f5-2ef557fde318",
     "published": "2024-01-11T20:57:58+00:00",
     "updated": "2024-01-11T20:57:58+00:00",
     "items": [],

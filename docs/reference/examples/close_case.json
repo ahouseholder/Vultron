@@ -1,0 +1,11 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Leave",
+  "id": "https://for.example/5e06d8ec-23eb-43ae-b8d6-3e9a594c03b3",
+  "name": "https://vultron.example/organizations/vendor Leave https://vultron.example/cases/VDR-20991514",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We're closing this case.",
+  "actor": "https://vultron.example/organizations/vendor",
+  "object": "https://vultron.example/cases/VDR-20991514"
+}

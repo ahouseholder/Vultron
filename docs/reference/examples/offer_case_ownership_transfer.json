@@ -1,0 +1,33 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Offer",
+  "id": "https://for.example/a5a1fa3f-995e-4fd0-a32a-4933a8a301ee",
+  "name": "https://vultron.example/organizations/vendor Offer VENDOR Case #20991514 to https://vultron.example/organizations/coordinator",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We're offering to transfer ownership of case VENDOR Case #20991514 to you.",
+  "actor": "https://vultron.example/organizations/vendor",
+  "target": "https://vultron.example/organizations/coordinator",
+  "object": {
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "type": "VulnerabilityCase",
+    "id": "https://vultron.example/cases/VDR-20991514",
+    "name": "VENDOR Case #20991514",
+    "published": "2024-01-11T20:57:58+00:00",
+    "updated": "2024-01-11T20:57:58+00:00",
+    "caseStatus": [
+      {
+        "@context": "https://www.w3.org/ns/activitystreams",
+        "type": "CaseStatus",
+        "id": "https://for.example/92e993d0-40ac-433a-88f4-ec655840c234",
+        "name": "EMBARGO_MANAGEMENT_NONE pxa",
+        "context": "https://vultron.example/cases/VDR-20991514",
+        "published": "2024-01-11T20:57:58+00:00",
+        "updated": "2024-01-11T20:57:58+00:00",
+        "emState": "EMBARGO_MANAGEMENT_NONE",
+        "pxaState": "pxa"
+      }
+    ],
+    "activeEmbargo": null
+  }
+}

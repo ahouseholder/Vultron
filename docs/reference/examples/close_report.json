@@ -1,10 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
-  "type": "RmCloseReport",
-  "id": "https://for.example/9996d80c-4249-452d-a339-6c0bcc1992ae",
-  "name": "https://vultron.example/organizations/vendor RmCloseReport https://vultron.example/reports/FDR-8675309",
-  "published": "2024-01-08T19:45:35+00:00",
-  "updated": "2024-01-08T19:45:35+00:00",
+  "asType": "Leave",
+  "id": "https://for.example/0beb966a-eb6f-474c-8219-6dc2049989d3",
+  "name": "https://vultron.example/organizations/vendor Leave https://vultron.example/reports/FDR-8675309",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We're closing this report.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": "https://vultron.example/reports/FDR-8675309"
 }

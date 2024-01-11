@@ -1,10 +1,11 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Accept",
-  "id": "https://for.example/0007bdb2-0e47-4d0b-952a-bb147d455e10",
+  "id": "https://for.example/a35c608c-5616-4ecc-8539-93026efc885d",
   "name": "https://vultron.example/organizations/vendor Accept https://vultron.example/reports/FDR-8675309",
-  "published": "2024-01-08T19:45:35+00:00",
-  "updated": "2024-01-08T19:45:35+00:00",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We've validated the report. We'll be creating a case shortly.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": "https://vultron.example/reports/FDR-8675309"
 }

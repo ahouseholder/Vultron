@@ -4,8 +4,8 @@
   "id": "https://vultron.example/cases/VDR-20991514/participants/vendor",
   "name": "VendorCo",
   "context": "https://vultron.example/cases/VDR-20991514",
-  "published": "2024-01-08T19:45:35+00:00",
-  "updated": "2024-01-08T19:45:35+00:00",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
   "actor": "https://vultron.example/organizations/vendor",
   "caseRoles": [
     "VENDOR"
@@ -14,11 +14,11 @@
     {
       "@context": "https://www.w3.org/ns/activitystreams",
       "type": "ParticipantStatus",
-      "id": "https://for.example/287128d4-1ae1-4dd4-a4a6-bc5a1bd44984",
+      "id": "https://for.example/c96adf36-8991-4662-9deb-840ca534bb6c",
       "name": "REPORT_MANAGEMENT_RECEIVED Vfd",
       "context": "https://vultron.example/cases/VDR-20991514",
-      "published": "2024-01-08T19:45:35+00:00",
-      "updated": "2024-01-08T19:45:35+00:00",
+      "published": "2024-01-11T20:57:58+00:00",
+      "updated": "2024-01-11T20:57:58+00:00",
       "actor": "https://vultron.example/organizations/vendor",
       "rmState": "REPORT_MANAGEMENT_RECEIVED",
       "vfdState": "Vfd",

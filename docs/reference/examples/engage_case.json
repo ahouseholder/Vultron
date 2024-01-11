@@ -1,0 +1,11 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "asType": "Join",
+  "id": "https://for.example/0a62faa0-53d3-4419-8daa-b9835f06911d",
+  "name": "https://vultron.example/organizations/vendor Join https://vultron.example/cases/VDR-20991514",
+  "published": "2024-01-11T20:57:58+00:00",
+  "updated": "2024-01-11T20:57:58+00:00",
+  "content": "We're engaging this case.",
+  "actor": "https://vultron.example/organizations/vendor",
+  "object": "https://vultron.example/cases/VDR-20991514"
+}
