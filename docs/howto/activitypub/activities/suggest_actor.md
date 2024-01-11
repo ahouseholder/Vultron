@@ -45,7 +45,3 @@ print(json2md(reject_actor_recommendation()))
 ```
 
 {% include-markdown "./_invite_to_case.md" heading-offset=1 %}
-
-
-
-

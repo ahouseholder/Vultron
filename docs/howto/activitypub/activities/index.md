@@ -39,4 +39,3 @@ task. The user flows are:
 - [Status Updates](./status_updates.md)
 - [Acknowledging a Report](./acknowledge.md)
 - [Error Handling](./error.md)
-

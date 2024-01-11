@@ -44,7 +44,7 @@ print(json2md(offer_case_ownership_transfer()))
 from vultron.scripts.vocab_examples import accept_case_ownership_transfer, json2md
 
 print(json2md(accept_case_ownership_transfer()))
-``` 
+```
 
 ## Reject Case Ownership Transfer
 
@@ -61,4 +61,3 @@ from vultron.scripts.vocab_examples import update_case, json2md
 
 print(json2md(update_case()))
 ```
-
