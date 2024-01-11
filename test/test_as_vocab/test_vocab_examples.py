@@ -31,9 +31,11 @@ from vultron.as_vocab.base.objects.activities.transitive import (
     as_Read,
     as_Reject,
     as_Undo,
+    as_Update,
 )
-from vultron.as_vocab.base.objects.actors import as_Actor
+from vultron.as_vocab.base.objects.actors import as_Actor, as_Organization
 from vultron.as_vocab.base.objects.base import as_Object
+from vultron.as_vocab.base.objects.object_types import as_Note
 from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 from vultron.as_vocab.objects.vulnerability_report import VulnerabilityReport
 
@@ -310,6 +312,7 @@ class MyTestCase(unittest.TestCase):
         case = examples.case()
 
         self.assertIsInstance(activity, as_Undo)
+
         self.assertEqual(activity.as_type, "Undo")
 
         self.assertEqual(activity.actor, vendor.as_id)
@@ -319,6 +322,147 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(activity.as_object.as_object, case.as_id)
 
         self.assertEqual(activity.context, case.as_id)
+
+    def test_note(self):
+        note = examples.note()
+        self.assertIsInstance(note, as_Object)
+        self.assertIsInstance(note, as_Note)
+
+        self.assertTrue(hasattr(note, "to_json"))
+        self.assertIn("This is a note", note.content)
+
+    def test_add_note_to_case(self):
+        activity = examples.add_note_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        finder = examples.finder()
+        case = examples.case()
+        note = examples.note()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, finder.as_id)
+        self.assertEqual(activity.target, case.as_id)
+
+        add_note = activity.as_object
+        self.assertIsInstance(add_note, as_Note)
+        self.assertEqual(add_note.context, case.as_id)
+        self.assertEqual(add_note.content, note.content)
+
+    def test_coordinator(self):
+        coordinator = examples.coordinator()
+        self.assertIsInstance(coordinator, as_Actor)
+
+        self.assertTrue(hasattr(coordinator, "to_json"))
+        self.assertIsInstance(coordinator, as_Organization)
+        self.assertIn("coordinator", coordinator.name.lower())
+
+    def test_offer_case_ownership_transfer(self):
+        activity = examples.offer_case_ownership_transfer()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        coordinator = examples.coordinator()
+        case = examples.case()
+
+        self.assertIsInstance(activity, as_Offer)
+        self.assertEqual(activity.as_type, "Offer")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, coordinator.as_id)
+
+        for k, v in activity.as_object.to_dict().items():
+            # skip list fields because they aren't always identical
+            if isinstance(v, list):
+                continue
+
+            self.assertEqual(v, case.to_dict()[k])
+
+    def test_accept_case_ownership_transfer(self):
+        activity = examples.accept_case_ownership_transfer()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        coordinator = examples.coordinator()
+        case = examples.case()
+
+        self.assertIsInstance(activity, as_Accept)
+        self.assertEqual(activity.as_type, "Accept")
+
+        self.assertEqual(activity.actor, coordinator.as_id)
+        self.assertEqual(activity.origin, vendor.as_id)
+
+        for k, v in activity.as_object.to_dict().items():
+            # skip list fields because they aren't always identical
+            if isinstance(v, list):
+                continue
+
+            self.assertEqual(v, case.to_dict()[k])
+
+    def test_reject_case_ownership_transfer(self):
+        activity = examples.reject_case_ownership_transfer()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        coordinator = examples.coordinator()
+        case = examples.case()
+
+        self.assertIsInstance(activity, as_Reject)
+        self.assertEqual(activity.as_type, "Reject")
+
+        self.assertEqual(activity.actor, coordinator.as_id)
+        self.assertEqual(activity.origin, vendor.as_id)
+
+        for k, v in activity.as_object.to_dict().items():
+            # skip list fields because they aren't always identical
+            if isinstance(v, list):
+                continue
+
+            self.assertEqual(v, case.to_dict()[k])
+
+    def test_update_case(self):
+        activity = examples.update_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+
+        self.assertIsInstance(activity, as_Update)
+        self.assertEqual(activity.as_type, "Update")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.as_object, case.as_id)
+
+    def test_recommend_actor(self):
+        activity = examples.recommend_actor()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        finder = examples.finder()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Offer)
+        self.assertEqual(activity.as_type, "Offer")
+
+        self.assertEqual(activity.actor, finder.as_id)
+        self.assertEqual(activity.as_object, coordinator.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.to, vendor.as_id)
+
+    def test_accept_actor_recommendation(self):
+        activity = examples.accept_actor_recommendation()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        finder = examples.finder()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Accept)
+        self.assertEqual(activity.as_type, "Accept")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.context, case.as_id)
+
+        self.assertEqual(activity.as_object, coordinator.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.to, finder.as_id)
 
 
 if __name__ == "__main__":

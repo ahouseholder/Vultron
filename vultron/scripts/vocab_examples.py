@@ -360,8 +360,124 @@ def reengage_case() -> as_Undo:
     return activity
 
 
+def note() -> as_Note:
+    _note = as_Note(
+        name="Note",
+        as_id=f"{case_base_url}/notes/1",
+        content="This is a note.",
+    )
+    return _note
+
+
+def add_note_to_case() -> AddNoteToCase:
+    _finder = finder()
+    _case = case()
+    _note = note()
+    _note.context = _case.as_id
+
+    activity = AddNoteToCase(
+        actor=_finder.as_id,
+        as_object=_note,
+        target=_case.as_id,
+    )
+
+    return activity
+
+
+def coordinator() -> as_Organization:
+    _coordinator = as_Organization(
+        name="Coordinator LLC", as_id=f"{organization_base_url}/coordinator"
+    )
+    return _coordinator
+
+
+def accept_case_ownership_transfer() -> AcceptCaseOwnershipTransfer:
+    _case = case()
+    _coordinator = coordinator()
+    _vendor = vendor()
+    _activity = AcceptCaseOwnershipTransfer(
+        actor=_coordinator.as_id,
+        as_object=_case,
+        origin=_vendor.as_id,
+        content=f"We're accepting your offer to transfer ownership of case {_case.name} to us.",
+    )
+    return _activity
+
+
+def offer_case_ownership_transfer() -> OfferCaseOwnershipTransfer:
+    _vendor = vendor()
+    _case = case()
+    _coordinator = coordinator()
+    _activity = OfferCaseOwnershipTransfer(
+        actor=_vendor.as_id,
+        as_object=_case,
+        target=_coordinator.as_id,
+        content=f"We're offering to transfer ownership of case {_case.name} to you.",
+    )
+    return _activity
+
+
+def reject_case_ownership_transfer() -> RejectCaseOwnershipTransfer:
+    _case = case()
+    _coordinator = coordinator()
+    _vendor = vendor()
+    _activity = RejectCaseOwnershipTransfer(
+        actor=_coordinator.as_id,
+        as_object=_case,
+        origin=_vendor.as_id,
+        content=f"We're declining your offer to transfer ownership of case {_case.name} to us.",
+    )
+    return _activity
+
+
+def update_case() -> UpdateCase:
+    _case = case()
+    _vendor = vendor()
+
+    _activity = UpdateCase(
+        actor=_vendor.as_id,
+        as_object=_case.as_id,
+        content="We're updating the case to reflect a transfer of ownership.",
+    )
+    return _activity
+
+
+def recommend_actor() -> RecommendActor:
+    _case = case()
+    _finder = finder()
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _activity = RecommendActor(
+        actor=_finder.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_vendor.as_id,
+        content=f"I'm recommending we add {_coordinator.name} to the case.",
+    )
+    return _activity
+
+
+def accept_actor_recommendation() -> AcceptActorRecommendation:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _finder = finder()
+    _case = case()
+    _activity = AcceptActorRecommendation(
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_finder.as_id,
+        content=f"We're accepting your recommendation to add {_coordinator.name} to the case. "
+        "We'll reach out to them shortly.",
+    )
+    return _activity
+
+
 def main():
     outdir = "../../docs/reference/examples"
+    print(f"Generating examples to: {outdir}")
 
     # ensure the output directory exists
     from pathlib import Path
@@ -441,148 +557,40 @@ def main():
     activity = reengage_case()
     obj_to_file(activity, f"{outdir}/reengage_case.json")
 
-    #
-    # # vendor proposes a case embargo
-    # end_time = datetime.datetime.now() + datetime.timedelta(days=45)
-    # embargo_event = EmbargoEvent(
-    #         context=case.as_id,
-    #         end_time=end_time,
-    # )
-    # obj_to_file(embargo_event, f"{outdir}/embargo_event.json")
-    #
-    # activity = EmProposeEmbargo(
-    #         actor=vendor.as_id,
-    #         as_object=embargo_event,
-    #         context=case.as_id,
-    #         target=case.as_id,
-    # )
-    # obj_to_file(activity, f"{outdir}/embargo_proposal.json")
-    #
-    # # finder accepts embargo proposal
-    # activity = EmAcceptEmbargo(
-    #         actor=finder.as_id,
-    #         as_object=embargo_event.as_id,
-    #         context=case.as_id,
-    #         target=case.as_id,
-    # )
-    # obj_to_file(activity, f"{outdir}/embargo_acceptance.json")
+    # activity: add note to case
+    activity = add_note_to_case()
+    obj_to_file(activity, f"{outdir}/add_note_to_case.json")
+
+    _coordinator = coordinator()
+    obj_to_file(_coordinator, f"{outdir}/coordinator.json")
+
+    # activity: offer case ownership transfer
+    activity = offer_case_ownership_transfer()
+    obj_to_file(activity, f"{outdir}/offer_case_ownership_transfer.json")
+
+    # activity: accept case ownership transfer
+    activity = accept_case_ownership_transfer()
+    obj_to_file(activity, f"{outdir}/accept_case_ownership_transfer.json")
+
+    # activity: reject case ownership transfer
+    activity = reject_case_ownership_transfer()
+    obj_to_file(activity, f"{outdir}/reject_case_ownership_transfer.json")
+
+    # activity: update case
+    activity = update_case()
+    obj_to_file(activity, f"{outdir}/update_case.json")
+
+    # recommend actor
+    activity = recommend_actor()
+    obj_to_file(activity, f"{outdir}/recommend_actor.json")
+
+    # accept actor recommendation
+    activity = accept_actor_recommendation()
+    obj_to_file(activity, f"{outdir}/accept_actor_recommendation.json")
 
 
 if __name__ == "__main__":
     main()
-
-
-def note() -> as_Note:
-    _note = as_Note(
-        name="Note",
-        as_id=f"{case_base_url}/notes/1",
-        content="This is a note.",
-    )
-    return _note
-
-
-def add_note_to_case() -> AddNoteToCase:
-    _finder = finder()
-    _case = case()
-    _note = note()
-
-    activity = AddNoteToCase(
-        actor=_finder.as_id,
-        as_object=_note,
-        target=_case.as_id,
-    )
-
-    return activity
-
-
-def coordinator() -> as_Organization:
-    _coordinator = as_Organization(
-        name="Coordinator LLC", as_id=f"{organization_base_url}/coordinator"
-    )
-    return _coordinator
-
-
-def offer_case_ownership_transfer() -> OfferCaseOwnershipTransfer:
-    _vendor = vendor()
-    _case = case()
-    _coordinator = coordinator()
-    _activity = OfferCaseOwnershipTransfer(
-        actor=_vendor.as_id,
-        as_object=_case,
-        target=_coordinator.as_id,
-        content=f"We're offering to transfer ownership of case {_case.name} to you.",
-    )
-    return _activity
-
-
-def accept_case_ownership_transfer() -> AcceptCaseOwnershipTransfer:
-    _case = case()
-    _coordinator = coordinator()
-    _vendor = vendor()
-    _activity = AcceptCaseOwnershipTransfer(
-        actor=_coordinator.as_id,
-        as_object=_case,
-        origin=_vendor.as_id,
-        content=f"We're accepting your offer to transfer ownership of case {_case.name} to us.",
-    )
-    return _activity
-
-
-def reject_case_ownership_transfer() -> RejectCaseOwnershipTransfer:
-    _case = case()
-    _coordinator = coordinator()
-    _vendor = vendor()
-    _activity = RejectCaseOwnershipTransfer(
-        actor=_coordinator.as_id,
-        as_object=_case,
-        origin=_vendor.as_id,
-        content=f"We're declining your offer to transfer ownership of case {_case.name} to us.",
-    )
-    return _activity
-
-
-def update_case() -> UpdateCase:
-    _case = case()
-    _vendor = vendor()
-    _activity = UpdateCase(
-        actor=_vendor.as_id,
-        as_object=_case,
-        content="We're updating the case to reflect a transfer of ownership.",
-    )
-    return _activity
-
-
-def recommend_actor() -> RecommendActor:
-    _case = case()
-    _finder = finder()
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _activity = RecommendActor(
-        actor=_finder.as_id,
-        as_object=_coordinator.as_id,
-        context=_case.as_id,
-        target=_case.as_id,
-        to=_vendor.as_id,
-        content=f"I'm recommending we add {_coordinator.name} to the case.",
-    )
-    return _activity
-
-
-def accept_actor_recommendation() -> AcceptActorRecommendation:
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _finder = finder()
-    _case = case()
-    _activity = AcceptActorRecommendation(
-        actor=_vendor.as_id,
-        as_object=_coordinator.as_id,
-        context=_case.as_id,
-        target=_case.as_id,
-        to=_finder.as_id,
-        content=f"We're accepting your recommendation to add {_coordinator.name} to the case. "
-        "We'll reach out to them shortly.",
-    )
-    return _activity
 
 
 def reject_actor_recommendation() -> RejectActorRecommendation:
