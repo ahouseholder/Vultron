@@ -19,12 +19,14 @@ from dataclasses import dataclass
 from dataclasses_json import LetterCase, dataclass_json
 
 import vultron.scripts.vocab_examples as examples
+from vultron.as_vocab.base.base import as_Base
 from vultron.as_vocab.base.objects.activities.base import as_Activity
 from vultron.as_vocab.base.objects.activities.transitive import (
     as_Accept,
     as_Add,
     as_Create,
     as_Ignore,
+    as_Invite,
     as_Join,
     as_Leave,
     as_Offer,
@@ -42,7 +44,7 @@ from vultron.as_vocab.objects.vulnerability_report import VulnerabilityReport
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass(kw_only=True)
-class Foo:
+class Foo(as_Base):
     bar: str = "baz"
 
 
@@ -463,6 +465,72 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(activity.as_object, coordinator.as_id)
         self.assertEqual(activity.target, case.as_id)
         self.assertEqual(activity.to, finder.as_id)
+
+    def test_reject_actor_recommendation(self):
+        activity = examples.reject_actor_recommendation()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        finder = examples.finder()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Reject)
+        self.assertEqual(activity.as_type, "Reject")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.context, case.as_id)
+
+        self.assertEqual(activity.as_object, coordinator.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.to, finder.as_id)
+
+    def test_rm_invite_to_case(self):
+        activity = examples.rm_invite_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        finder = examples.finder()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Invite)
+        self.assertEqual(activity.as_type, "Invite")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.as_object, coordinator.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.to, coordinator.as_id)
+
+    def test_accept_invite_to_case(self):
+        activity = examples.accept_invite_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coordinator = examples.coordinator()
+        invite = examples.rm_invite_to_case()
+
+        self.assertIsInstance(activity, as_Accept)
+        self.assertEqual(activity.as_type, "Accept")
+
+        self.assertEqual(activity.actor, coordinator.as_id)
+        self.assertEqual(activity.as_object, case.as_id)
+        self.assertEqual(activity.to, vendor.as_id)
+        self.assertEqual(activity.in_reply_to, invite.as_id)
+
+    def test_reject_invite_to_case(self):
+        activity = examples.reject_invite_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coordinator = examples.coordinator()
+        invite = examples.rm_invite_to_case()
+
+        self.assertIsInstance(activity, as_Reject)
+        self.assertEqual(activity.as_type, "Reject")
+
+        self.assertEqual(activity.actor, coordinator.as_id)
+        self.assertEqual(activity.as_object, case.as_id)
+        self.assertEqual(activity.to, vendor.as_id)
+        self.assertEqual(activity.in_reply_to, invite.as_id)
 
 
 if __name__ == "__main__":
