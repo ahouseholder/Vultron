@@ -16,7 +16,6 @@ Provides various CaseParticipant objects for the Vultron ActivityStreams Vocabul
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
 from dataclasses import dataclass, field
-from typing import Union
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
@@ -64,7 +63,7 @@ class CaseParticipant(VultronObject):
 
     actor: as_Actor
     name: str
-    # context: Union[as_Object, as_Link]
+    # context: as_Object | as_Link | str
     case_roles: list[CVDRole] = field(
         default_factory=list,
         metadata=config(
@@ -76,7 +75,7 @@ class CaseParticipant(VultronObject):
     participant_case_name: str = field(
         default=None, metadata=config(exclude=exclude_if_none)
     )
-    context: Union["VulnerabilityCase", as_Link] = field(
+    context: "VulnerabilityCase" | as_Link| str = field(
         default=None, repr=True
     )
 

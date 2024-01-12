@@ -16,7 +16,7 @@ Provides Vultron ActivityStreams Activities related to CaseParticipants
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Optional
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
@@ -37,10 +37,10 @@ class CreateParticipant(as_Create):
     """Create a new CaseParticipant"""
 
     as_type: str = field(default="Create", init=False)
-    as_object: Optional[Union[CaseParticipant, as_Link]] = field(
+    as_object: Optional[CaseParticipant | as_Link | str] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
-    target: Optional[Union[VulnerabilityCase, as_Link]] = field(default=None)
+    target: Optional[VulnerabilityCase | as_Link | str] = field(default=None)
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -49,10 +49,10 @@ class CreateStatusForParticipant(as_Create):
     """Create a new CaseStatus for a CaseParticipant"""
 
     as_type: str = field(default="Create", init=False)
-    as_object: Optional[Union[ParticipantStatus, as_Link]] = field(
+    as_object: Optional[ParticipantStatus | as_Link | str] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
-    target: Optional[Union[CaseParticipant, as_Link]] = field(default=None)
+    target: Optional[CaseParticipant | as_Link | str] = field(default=None)
 
 
 # add CaseStatus to CaseParticipant
@@ -65,10 +65,10 @@ class AddStatusToParticipant(as_Add):
     """
 
     as_type: str = field(default="Add", init=False)
-    as_object: Optional[Union[ParticipantStatus, as_Link]] = field(
+    as_object: Optional[ParticipantStatus | as_Link | str] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
-    target: Optional[Union[CaseParticipant, as_Link]] = field(default=None)
+    target: Optional[CaseParticipant | as_Link | str] = field(default=None)
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -80,10 +80,10 @@ class AddParticipantToCase(as_Add):
     """
 
     as_type: str = field(default="Add", init=False)
-    as_object: Optional[Union[CaseParticipant, as_Link]] = field(
+    as_object: Optional[CaseParticipant | as_Link | str] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
-    target: Optional[Union[VulnerabilityCase, as_Link]] = field(default=None)
+    target: Optional[VulnerabilityCase | as_Link | str] = field(default=None)
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -96,7 +96,7 @@ class RemoveParticipantFromCase(as_Remove):
     """
 
     as_type: str = field(default="Remove", init=False)
-    as_object: Optional[Union[CaseParticipant, as_Link]] = field(
+    as_object: Optional[CaseParticipant | as_Link | str] = field(
         metadata=config(field_name="object"), default=None, repr=True
     )
-    origin: Optional[Union[VulnerabilityCase, as_Link]] = field(default=None)
+    origin: Optional[VulnerabilityCase | as_Link | str] = field(default=None)
