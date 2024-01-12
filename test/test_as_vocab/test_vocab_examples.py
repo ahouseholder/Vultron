@@ -532,6 +532,21 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(activity.to, vendor.as_id)
         self.assertEqual(activity.in_reply_to, invite.as_id)
 
+    def test_create_participant(self):
+        activity = examples.create_participant()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Create)
+        self.assertEqual(activity.as_type, "Create")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object.actor, coordinator.as_id)
+        self.assertEqual(activity.as_object.context, case.as_id)
+        self.assertEqual(activity.as_object.name, coordinator.name)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 """
 Provides tools for generating examples of Vultron ActivityStreams objects.
+
+Used within the Vultron documentation to provide examples of Vultron ActivityStreams objects.
+
+When run as a script, this module will generate a set of example objects and write them to the docs/reference/examples
+directory.
 """
 #  Copyright (c) 2024 Carnegie Mellon University and Contributors.
 #  - see Contributors.md for a full list of Contributors
@@ -112,11 +117,21 @@ def print_obj(obj: as_Base) -> None:
 
 
 def finder() -> as_Person:
+    """
+    Create a finder (Person) object
+    Returns:
+        an as_Person object
+    """
     _finder = as_Person(name="Finn der Vul", as_id=f"{user_base_url}/finn")
     return _finder
 
 
 def vendor() -> as_Organization:
+    """
+    Create a vendor (Organization) object
+    Returns:
+        an as_Organization object
+    """
     _vendor = as_Organization(
         name="VendorCo", as_id=f"{organization_base_url}/vendor"
     )
@@ -124,6 +139,11 @@ def vendor() -> as_Organization:
 
 
 def report() -> VulnerabilityReport:
+    """
+    Create a vulnerability report
+    Returns:
+        a VulnerabilityReport object
+    """
     _finder = finder()
     report = VulnerabilityReport(
         name="FDR-8675309",
@@ -137,6 +157,11 @@ def report() -> VulnerabilityReport:
 
 
 def create_report() -> RmCreateReport:
+    """
+    Create an activity for a finder creating a vulnerability report
+    Returns:
+        an RmCreateReport object
+    """
     _finder = finder()
     _report = report()
     activity = RmCreateReport(actor=_finder.as_id, as_object=_report)
@@ -474,6 +499,82 @@ def accept_actor_recommendation() -> AcceptActorRecommendation:
     )
     return _activity
 
+def reject_actor_recommendation() -> RejectActorRecommendation:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _finder = finder()
+    _case = case()
+    _activity = RejectActorRecommendation(
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        context=_case.as_id,
+        target=_case.as_id,
+        to=_finder.as_id,
+        content=f"We're declining your recommendation to add {_coordinator.name} to the case. Thanks anyway.",
+    )
+    return _activity
+
+
+def rm_invite_to_case() -> RmInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmInviteToCase(
+        as_id=f"{_case.as_id}/invitation/1",
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        target=_case.as_id,
+        to=_coordinator.as_id,
+        content=f"We're inviting you to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def accept_invite_to_case() -> RmAcceptInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmAcceptInviteToCase(
+        actor=_coordinator.as_id,
+        as_object=_case.as_id,
+        to=_vendor.as_id,
+        in_reply_to=rm_invite_to_case().as_id,
+        content=f"We're accepting your invitation to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def reject_invite_to_case() -> RmRejectInviteToCase:
+    _vendor = vendor()
+    _coordinator = coordinator()
+    _case = case()
+    _activity = RmRejectInviteToCase(
+        actor=_coordinator.as_id,
+        as_object=_case.as_id,
+        to=_vendor.as_id,
+        in_reply_to=rm_invite_to_case().as_id,
+        content=f"Thanks for the invitation, but we're declining to participate in {_case.name}.",
+    )
+    return _activity
+
+
+def create_participant():
+    _vendor = vendor()
+    _case = case()
+    _coordinator = coordinator()
+    _coord_participant = CoordinatorParticipant(
+        as_id=f"{_case.as_id}/participants/{_coordinator.as_id}",
+        name=_coordinator.name,
+        actor=_coordinator.as_id,
+        context=_case.as_id,
+    )
+    _activity = CreateParticipant(
+        actor=_vendor.as_id,
+        as_object=_coord_participant,
+        target=_case.as_id,
+        content=f"We're adding {_coordinator.name} to the case.",
+    )
+    return _activity
 
 def main():
     outdir = "../../docs/reference/examples"
@@ -588,84 +689,26 @@ def main():
     activity = accept_actor_recommendation()
     obj_to_file(activity, f"{outdir}/accept_actor_recommendation.json")
 
+    # reject actor recommendation
+    activity = reject_actor_recommendation()
+    obj_to_file(activity, f"{outdir}/reject_actor_recommendation.json")
+
+    # rm_invite_to_case
+    activity = rm_invite_to_case()
+    obj_to_file(activity, f"{outdir}/invite_to_case.json")
+
+    # rm_accept_invite_to_case
+    activity = accept_invite_to_case()
+    obj_to_file(activity, f"{outdir}/accept_invite_to_case.json")
+
+    # rm_reject_invite_to_case
+    activity = reject_invite_to_case()
+    obj_to_file(activity, f"{outdir}/reject_invite_to_case.json")
+
+    # create participant
+    activity = create_participant()
+    obj_to_file(activity, f"{outdir}/create_participant.json")
 
 if __name__ == "__main__":
     main()
 
-
-def reject_actor_recommendation() -> RejectActorRecommendation:
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _finder = finder()
-    _case = case()
-    _activity = RejectActorRecommendation(
-        actor=_vendor.as_id,
-        as_object=_coordinator.as_id,
-        context=_case.as_id,
-        target=_case.as_id,
-        to=_finder.as_id,
-        content=f"We're declining your recommendation to add {_coordinator.name} to the case. Thanks anyway.",
-    )
-    return _activity
-
-
-def rm_invite_to_case() -> RmInviteToCase:
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _case = case()
-    _activity = RmInviteToCase(
-        as_id=f"{_case.as_id}/invitation/1",
-        actor=_vendor.as_id,
-        as_object=_coordinator.as_id,
-        target=_case.as_id,
-        to=_coordinator.as_id,
-        content=f"We're inviting you to participate in {_case.name}.",
-    )
-    return _activity
-
-
-def accept_invite_to_case() -> RmAcceptInviteToCase:
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _case = case()
-    _activity = RmAcceptInviteToCase(
-        actor=_coordinator.as_id,
-        as_object=_case.as_id,
-        to=_vendor.as_id,
-        in_reply_to=rm_invite_to_case().as_id,
-        content=f"We're accepting your invitation to participate in {_case.name}.",
-    )
-    return _activity
-
-
-def reject_invite_to_case() -> RmRejectInviteToCase:
-    _vendor = vendor()
-    _coordinator = coordinator()
-    _case = case()
-    _activity = RmRejectInviteToCase(
-        actor=_coordinator.as_id,
-        as_object=_case.as_id,
-        to=_vendor.as_id,
-        in_reply_to=rm_invite_to_case().as_id,
-        content=f"Thanks for the invitation, but we're declining to participate in {_case.name}.",
-    )
-    return _activity
-
-
-def create_participant():
-    _vendor = vendor()
-    _case = case()
-    _coordinator = coordinator()
-    _coord_participant = CoordinatorParticipant(
-        as_id=f"{_case.as_id}/participants/{_coordinator.as_id}",
-        name=_coordinator.name,
-        actor=_coordinator.as_id,
-        context=_case.as_id,
-    )
-    _activity = CreateParticipant(
-        actor=_vendor.as_id,
-        as_object=_coord_participant,
-        target=_case.as_id,
-        content=f"We're adding {_coordinator.name} to the case.",
-    )
-    return _activity

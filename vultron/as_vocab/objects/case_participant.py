@@ -15,6 +15,8 @@ Provides various CaseParticipant objects for the Vultron ActivityStreams Vocabul
 #  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 
 from dataclasses_json import LetterCase, config, dataclass_json
@@ -75,7 +77,7 @@ class CaseParticipant(VultronObject):
     participant_case_name: str = field(
         default=None, metadata=config(exclude=exclude_if_none)
     )
-    context: "VulnerabilityCase" | as_Link| str = field(
+    context: VulnerabilityCase | as_Link | str = field(
         default=None, repr=True
     )
 
