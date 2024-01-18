@@ -20,6 +20,8 @@ directory.
 #  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
 
+from datetime import datetime, timedelta
+
 from vultron.as_vocab.activities.actor import (
     AcceptActorRecommendation,
     RecommendActor,
@@ -61,11 +63,26 @@ from vultron.as_vocab.objects.case_participant import (
     FinderReporterParticipant,
     VendorParticipant,
 )
-from vultron.as_vocab.objects.case_status import ParticipantStatus
+from vultron.as_vocab.objects.case_status import CaseStatus, ParticipantStatus
+from vultron.as_vocab.objects.embargo_event import EmbargoEvent
 from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 from vultron.as_vocab.objects.vulnerability_report import VulnerabilityReport
+from vultron.bt.embargo_management.states import EM
 from vultron.bt.report_management.states import RM
-from vultron.case_states.states import CS_vfd
+from vultron.case_states.states import CS_pxa, CS_vfd
+
+#  Copyright (c) 2024 Carnegie Mellon University and Contributors.
+#  - see Contributors.md for a full list of Contributors
+#  - see ContributionInstructions.md for information on how you can Contribute to this project
+#  Vultron Multiparty Coordinated Vulnerability Disclosure Protocol Prototype is
+#  licensed under a MIT (SEI)-style license, please see LICENSE.md distributed
+#  with this Software or contact permission@sei.cmu.edu for full terms.
+#  Created, in part, with funding and support from the United States Government
+#  (see Acknowledgments file). This program may include and/or can make use of
+#  certain third party source code, object code, documentation and other files
+#  (“Third Party Software”). See LICENSE.md for more details.
+#  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
+#  U.S. Patent and Trademark Office by Carnegie Mellon University
 
 base_url = "https://vultron.example"
 user_base_url = f"{base_url}/users"
@@ -158,9 +175,10 @@ def report() -> VulnerabilityReport:
 
 def create_report() -> RmCreateReport:
     """
-    Create an activity for a finder creating a vulnerability report
-    Returns:
-        an RmCreateReport object
+    In this example, a finder creates a vulnerability report.
+
+    Example:
+          >>> RmCreateReport(actor=finder.as_id, as_object=report)
     """
     _finder = finder()
     _report = report()
@@ -499,6 +517,7 @@ def accept_actor_recommendation() -> AcceptActorRecommendation:
     )
     return _activity
 
+
 def reject_actor_recommendation() -> RejectActorRecommendation:
     _vendor = vendor()
     _coordinator = coordinator()
@@ -575,6 +594,7 @@ def create_participant():
         content=f"We're adding {_coordinator.name} to the case.",
     )
     return _activity
+
 
 def main():
     outdir = "../../docs/reference/examples"
@@ -709,6 +729,48 @@ def main():
     activity = create_participant()
     obj_to_file(activity, f"{outdir}/create_participant.json")
 
+
 if __name__ == "__main__":
     main()
 
+
+def case_status():
+    status = CaseStatus(
+        context="https://vultron.example/cases/1",
+        em_state=EM.EMBARGO_MANAGEMENT_NONE,
+        pxa_state=CS_pxa.pxa,
+    )
+    return status
+
+
+def participant_status():
+    status = ParticipantStatus(
+        context="https://vultron.example/cases/1/participants/vendor",
+        actor="https://vultron.example/organizations/vendor",
+        rm_state=RM.RECEIVED,
+        vfd_state=CS_vfd.Vfd,
+        case_status=case_status(),
+    )
+    return status
+
+
+def case_participant():
+    participant = VendorParticipant(
+        as_id="https://vultron.example/cases/1/participants/vendor",
+        name="Vendor",
+        actor="https://vultron.example/organizations/vendor",
+        context="https://vultron.example/cases/1",
+        participant_status=[participant_status()],
+    )
+    return participant
+
+
+def embargo_event():
+    event = EmbargoEvent(
+        as_id="https://vultron.example/embargo_events/1",
+        name="Embargo for case 1",
+        context="https://vultron.example/cases/1",
+        end_time=datetime.now() + timedelta(days=90),
+        content="We propose to embargo case 1 for 90 days.",
+    )
+    return event
