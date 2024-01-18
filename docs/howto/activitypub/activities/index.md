@@ -11,8 +11,6 @@ are used in the Vultron protocol.
 A full mapping of Vultron to ActivityStreams is available in the
 [Vultron ActivityStreams Ontology](../../../reference/ontology/vultron_as.md).
 
-{== TODO this really needs to be organized by user flow ==}
-
 !!! note "Design Goals"
 
     Our goal in each of these activity definitions is to
@@ -26,6 +24,12 @@ For documentation purposes, we have divided the Vultron AS activities by user fl
 Each of these user flows shows the activities that are used to perform a specific
 task. The user flows are:
 
+- [Managing Participants](./manage_participants.md)
+- [Establishing an Embargo](./establish_embargo.md)
+- [Managing an Embargo](./manage_embargo.md)
+
+{== TODO below this line is done. Remove when all complete ==}
+
 - [Reporting a Vulnerability](./report_vulnerability.md)
 - [Initializing a Case](./initialize_case.md)
 - [Managing a Case](./manage_case.md)
@@ -33,9 +37,8 @@ task. The user flows are:
 - [Suggest Actor for Case](./suggest_actor.md)
 - [Inviting an Actor to a Case](./invite_actor.md)
 - [Initializing a Participant](./initialize_participant.md)
-- [Managing Participants](./manage_participants.md)
-- [Establishing an Embargo](./establish_embargo.md)
-- [Managing an Embargo](./manage_embargo.md)
+
+
 - [Status Updates](./status_updates.md)
 - [Acknowledging a Report](./acknowledge.md)
 - [Error Handling](./error.md)
