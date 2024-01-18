@@ -55,7 +55,12 @@ from vultron.as_vocab.activities.report import (
     RmValidateReport,
 )
 from vultron.as_vocab.base.base import as_Base
-from vultron.as_vocab.base.objects.activities.transitive import as_Undo
+from vultron.as_vocab.base.objects.activities.transitive import (
+    as_Add,
+    as_Create,
+    as_Remove,
+    as_Undo,
+)
 from vultron.as_vocab.base.objects.actors import as_Organization, as_Person
 from vultron.as_vocab.base.objects.object_types import as_Note
 from vultron.as_vocab.objects.case_participant import (
@@ -774,3 +779,45 @@ def embargo_event():
         content="We propose to embargo case 1 for 90 days.",
     )
     return event
+
+
+def invite_to_case():
+    invite = RmInviteToCase(
+        as_id="https://vultron.example/cases/1/invitation/1",
+        actor="https://vultron.example/organizations/vendor",
+        as_object="https://vultron.example/organizations/coordinator",
+        target="https://vultron.example/cases/1",
+        to="https://vultron.example/organizations/coordinator",
+        content="We're inviting you to participate in case 1.",
+    )
+    return invite
+
+
+def create_participant_status():
+    pstatus = participant_status()
+
+    activity = as_Create(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=pstatus,
+    )
+    return activity
+
+
+def add_status_to_participant():
+    pstatus = participant_status()
+
+    activity = as_Add(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=pstatus,
+        target="https://vultron.example/cases/1/participants/vendor",
+    )
+    return activity
+
+
+def remove_participant_from_case():
+    activity = as_Remove(
+        actor="https://vultron.example/organizations/coordinator",
+        as_object="https://vultron.example/cases/1/participants/vendor",
+        origin="https://vultron.example/cases/1",
+    )
+    return activity

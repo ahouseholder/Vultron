@@ -58,3 +58,41 @@ flowchart TB
     If what we're describing here is inconsistent with ActivityPub, please let us know in the form of an issue or 
     pull request.
 
+{% include-markdown "./_invite_to_case.md" heading-offset=1 %}
+{% include-markdown "./_accept_invite_to_case.md" heading-offset=1 %}
+{% include-markdown "./_reject_invite_to_case.md" heading-offset=1 %}
+{% include-markdown "./_create_participant.md" heading-offset=1 %}
+{% include-markdown "./_add_coordinator_participant_to_case.md" heading-offset=1 %}
+
+## Create Participant Status
+
+The vendor actor is creating a participant status representing the vendor's status in the context of a specific case.
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import create_participant_status, json2md
+
+print(json2md(create_participant_status()))
+```
+
+## Add Status to Participant
+
+The vendor is adding a status to their participant object in the context of the specific case.
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import add_status_to_participant, json2md
+
+print(json2md(add_status_to_participant()))
+```
+
+## Remove Participant from Case
+
+A coordinator is removing a vendor from a case.
+
+```python exec="true" idprefix=""
+from vultron.scripts.vocab_examples import remove_participant_from_case, json2md
+
+print(json2md(remove_participant_from_case()))
+```
+
+
+
