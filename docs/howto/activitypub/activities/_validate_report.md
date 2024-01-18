@@ -1,6 +1,6 @@
 # Validate Report
 
-The vendor validates the vulnerability report, which implies that they will 
+The vendor validates the vulnerability report, which implies that they will
 shortly create a case to track the vulnerability response.
 
 ```python exec="true" idprefix=""

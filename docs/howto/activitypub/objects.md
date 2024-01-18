@@ -81,16 +81,16 @@ Examples of what might go into the `content` property of a `VulnerabilityReport`
   [CERT/CC's Vulnerability Reporting Form](https://www.kb.cert.org/vuls/vulcoordrequest/)
 - A plain text description of the vulnerability, for example a markdown-formatted text description with section
   headings and links to external resources
-    
+
 We are deliberately leaving the format of the `content` property open-ended in order to allow for flexibility in the
 types of vulnerability reports that can be represented. However, we do recommend that the `content` property be used to
 represent a widely-used structured format whenever possible, since this will allow for more automation in the processing of
 vulnerability reports.
 
 While we recommend that the `content` property be used to contain text-based vulnerability report formats, we also
-recognize the potential need for some vulnerability reports to take the form of binary attachments, such as PDF 
+recognize the potential need for some vulnerability reports to take the form of binary attachments, such as PDF
 documents, images, audio files, or video files. In these cases, the `content` property could contain a link to the binary
-file or an embedded encoding of the binary file. However, we recommend that binary attachments be avoided whenever 
+file or an embedded encoding of the binary file. However, we recommend that binary attachments be avoided whenever
 possible, since they can be more difficult to process automatically.
 
 ```python exec="true" idprefix=""
@@ -104,7 +104,6 @@ print(json2md(report()))
     Obviously a VulnerabilityReport or advisory draft could also be an 
     `as:Article` or `as:Document`, but at the moment we don't use those types 
     explicitly.
-
 
 ### VulnerabilityCase
 
@@ -121,7 +120,6 @@ The `VulnerabilityCase` object is intended to be consistent with the [Case Objec
     `VulnerabilityCase` object to represent their cases in ActivityPub, but they would not necessarily use the same
     data model internally.
 
-
 ```python exec="true" idprefix=""
 from vultron.scripts.vocab_examples import case, json2md, report
 
@@ -137,9 +135,8 @@ print(json2md(_case))
 
 A `CaseStatus` object is used to represent the participant-agnostic status of a `VulnerabilityCase` object.
 We describe the semantics of the `CaseStatus` object in the [Case Object](../case_object.md) section.
-The distinction between _participant-agnostic_ and _participant-specific_ status is described in the
+The distinction between *participant-agnostic* and *participant-specific* status is described in the
 [Global vs Local](../../topics/process_models/model_interactions/index.md) section.
-
 
 ```python exec="true" idprefix=""
 from vultron.scripts.vocab_examples import case_status, json2md
@@ -152,23 +149,23 @@ print(json2md(case_status()))
 As noted above,
 the `CaseParticipant` object is a wrapper around an `as:Actor` object that associates the actor with a specific
 `VulnerabilityCase` object.
-The `CaseParticipant` object is intended to be consistent with the 
+The `CaseParticipant` object is intended to be consistent with the
 [Participant Class](../case_object.md#the-participant-class) defined as part of the [Case Object](../case_object.md).
 The `CaseParticipant` object also includes a `participantStatus` property that describes the
-participant's status in the case as it progresses. 
+participant's status in the case as it progresses.
 
 ```python exec="true" idprefix=""
 from vultron.scripts.vocab_examples import case_participant, json2md
 
 print(json2md(case_participant()))
 ```
- 
+
 ### ParticipantStatus
 
 A `ParticipantStatus` object is used to represent the participant-specific status of a `CaseParticipant` within
 the context of a `VulnerabilityCase` object.
-As noted [above](#casestatus), see the [Global vs Local](../../topics/process_models/model_interactions/index.md) 
-section for more information about the distinction between _participant-agnostic_ and _participant-specific_ status.
+As noted [above](#casestatus), see the [Global vs Local](../../topics/process_models/model_interactions/index.md)
+section for more information about the distinction between *participant-agnostic* and *participant-specific* status.
 
 ```python exec="true" idprefix=""
 from vultron.scripts.vocab_examples import participant_status, json2md
@@ -187,7 +184,6 @@ print(json2md(participant_status()))
     `CaseStatus` object in the `VulnerabilityCase` object to reflect the new status by changing the `pxaState` to 
     include _X_.
 
-
 ### EmbargoEvent
 
 An `EmbargoEvent` object is used to represent the end date and time of an embargo event as an ActivityStreams object.
@@ -198,4 +194,3 @@ from vultron.scripts.vocab_examples import embargo_event, json2md
 
 print(json2md(embargo_event()))
 ```
-

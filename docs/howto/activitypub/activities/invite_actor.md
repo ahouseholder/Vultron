@@ -24,5 +24,3 @@ flowchart LR
 {% include-markdown "./_accept_invite_to_case.md" heading-offset=1 %}
 {% include-markdown "./_reject_invite_to_case.md" heading-offset=1 %}
 {% include-markdown "./_add_coordinator_participant_to_case.md" heading-offset=1 %}
-
-

@@ -29,4 +29,3 @@ print(json2md(add_coordinator_participant_to_case()))
     flowchart LR
     a[create particpant with status] -->|target| b[case]
     ```
-

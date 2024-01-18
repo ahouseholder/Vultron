@@ -39,7 +39,6 @@ task. The user flows are:
 - [Initializing a Participant](./initialize_participant.md)
 - [Managing Participants](./manage_participants.md)
 
-
 - [Status Updates](./status_updates.md)
 - [Acknowledging a Report](./acknowledge.md)
 - [Error Handling](./error.md)

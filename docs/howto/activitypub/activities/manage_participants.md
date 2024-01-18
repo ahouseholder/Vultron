@@ -4,7 +4,6 @@ Typically most cases involve multiple participants, having various roles
 within the case. While the most common activities are inviting and adding
 participants, we've also included activities for removing participants.
 
-
 ```mermaid
 flowchart TB
     subgraph as:Invite 
@@ -93,6 +92,3 @@ from vultron.scripts.vocab_examples import remove_participant_from_case, json2md
 
 print(json2md(remove_participant_from_case()))
 ```
-
-
-
