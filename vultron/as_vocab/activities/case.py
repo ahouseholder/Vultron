@@ -17,7 +17,7 @@ Each activity should have a VulnerabilityCase object as either its target or obj
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Optional
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
@@ -38,7 +38,6 @@ from vultron.as_vocab.base.objects.actors import as_Actor
 from vultron.as_vocab.base.objects.object_types import as_Note
 from vultron.as_vocab.base.utils import exclude_if_none
 from vultron.as_vocab.objects.case_status import CaseStatus
-from vultron.as_vocab.objects.embargo_event import EmbargoEvent
 from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 from vultron.as_vocab.objects.vulnerability_report import VulnerabilityReport
 
@@ -65,25 +64,6 @@ class AddReportToCase(as_Add):
 
 # add CaseParticipant to VulnerabilityCase
 # see AddParticipantToCase in case_participant.py
-
-
-# add EmbargoEvent to VulnerabilityCase
-@dataclass_json(letter_case=LetterCase.CAMEL)
-@dataclass(kw_only=True)
-class AddEmbargoToCase(as_Add):
-    """Add an EmbargoEvent to a VulnerabilityCase.
-    This implies that the case owner is setting the embargo for the case, which should come
-    after an embargo proposal has been accepted by the case owner.
-    For embargo proposals, see EmProposeEmbargo.
-    as_object: EmbargoEvent
-    target: VulnerabilityCase
-    """
-
-    as_type: str = field(default="Add", init=False)
-    as_object: Optional[EmbargoEvent | as_Link | str] = field(
-        metadata=config(field_name="object"), default=None, repr=True
-    )
-    target: Optional[VulnerabilityCase | as_Link | str] = field(default=None)
 
 
 # add CaseStatus to VulnerabilityCase

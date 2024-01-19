@@ -16,7 +16,7 @@ Provides Vultron Activity Streams Vocabulary classes for Embargo activities
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Optional, Sequence
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
@@ -113,10 +113,10 @@ class ChoosePreferredEmbargo(as_Question):
     # note: not specifying as_object here because Questions are intransitive
 
     as_type: str = field(default="Question", init=False)
-    any_of: Optional[EmbargoEvent | as_Link | str] = field(
+    any_of: Optional[Sequence[EmbargoEvent | as_Link | str]] = field(
         metadata=config(exclude=exclude_if_none), default=None
     )
-    one_of: Optional[EmbargoEvent | as_Link | str] = field(
+    one_of: Optional[Sequence[EmbargoEvent | as_Link | str]] = field(
         metadata=config(exclude=exclude_if_none), default=None
     )
 
@@ -139,6 +139,24 @@ class ActivateEmbargo(as_Add):
         default=None, repr=True
     )
     in_reply_to: Optional[EmProposeEmbargo | as_Link | str] = field(
+        default=None, repr=True
+    )
+
+
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass(kw_only=True)
+class AddEmbargoToCase(as_Add):
+    """Add an EmbargoEvent to a case. This should only be performed by the case owner.
+    For use when the case owner is activating an embargo on the case without first proposing it to the participants.
+    See ActivateEmbargo for use when the case owner is activating an embargo on the case
+    in response to a previous EmProposeEmbargo activity.
+    """
+
+    as_type: str = field(default="Add", init=False)
+    as_object: Optional[EmbargoEvent | as_Link | str] = field(
+        metadata=config(field_name="object"), default=None, repr=True
+    )
+    target: Optional[VulnerabilityCase | as_Link | str] = field(
         default=None, repr=True
     )
 
