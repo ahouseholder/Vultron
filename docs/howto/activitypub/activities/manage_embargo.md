@@ -7,7 +7,6 @@ decisions and activities that are used to manage an embargo once it has been est
 Once established, an embargo can be modified via a propose/accept/reject cycle.
 It can also be terminated or removed from a case.
 
-
 ```mermaid
 flowchart TB
     subgraph as:Invite

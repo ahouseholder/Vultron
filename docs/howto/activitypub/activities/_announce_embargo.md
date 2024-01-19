@@ -16,4 +16,3 @@ print(json2md(announce_embargo()))
     significant changes to the embargo status over and above the corresponding 
     CaseStatus messages, such as when an embargo is deactivated or removed from
     a case.
-

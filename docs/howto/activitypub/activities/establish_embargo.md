@@ -19,7 +19,6 @@ one of two ways:
     decide whether to accept the embargo or not. This could be an appropriate way to address the concept of
     [Default Embargoes](../../topics/process_models/em/default.md).
 
-
 ```mermaid
 flowchart TB
     subgraph as:Invite
@@ -61,5 +60,3 @@ flowchart TB
 {% include-markdown "./_add_embargo_to_case.md" heading-offset=1 %}
 {% include-markdown "./_activate_embargo.md" heading-offset=1 %}
 {% include-markdown "./_announce_embargo.md" heading-offset=1 %}
-
-

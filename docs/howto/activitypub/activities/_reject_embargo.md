@@ -7,4 +7,3 @@ from vultron.scripts.vocab_examples import reject_embargo, json2md
 
 print(json2md(reject_embargo()))
 ```
-
