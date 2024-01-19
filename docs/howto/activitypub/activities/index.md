@@ -24,11 +24,6 @@ For documentation purposes, we have divided the Vultron AS activities by user fl
 Each of these user flows shows the activities that are used to perform a specific
 task. The user flows are:
 
-- [Managing an Embargo](./manage_embargo.md)
-
-{== TODO below this line is done. Remove when all complete ==}
-{== TODO double check that each of these are listed in mkdocs.yml ==}
-
 - [Reporting a Vulnerability](./report_vulnerability.md)
 - [Initializing a Case](./initialize_case.md)
 - [Managing a Case](./manage_case.md)
@@ -38,7 +33,7 @@ task. The user flows are:
 - [Initializing a Participant](./initialize_participant.md)
 - [Managing Participants](./manage_participants.md)
 - [Establishing an Embargo](./establish_embargo.md)
-
+- [Managing an Embargo](./manage_embargo.md)
 - [Status Updates](./status_updates.md)
 - [Acknowledging a Report](./acknowledge.md)
 - [Error Handling](./error.md)

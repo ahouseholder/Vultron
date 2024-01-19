@@ -1,16 +1,12 @@
 # Managing an Embargo
 
+{% include-markdown "./_em_blurb.md" %}
+
+This diagram is similar to the one shown in [Establishing an Embargo](./establish_embargo.md), but it also shows the
+decisions and activities that are used to manage an embargo once it has been established.
 Once established, an embargo can be modified via a propose/accept/reject cycle.
 It can also be terminated or removed from a case.
 
-!!! tip "Announce Embargo"
-
-    The `AnnounceEmbargo` activity is used to indicate that an embargo has been
-    established or to remind participants of its status. It is used to announce
-    the embargo to the case participants. It is also used to draw attention to
-    significant changes to the embargo status over and above the corresponding 
-    CaseStatus messages, such as when an embargo is deactivated or removed from
-    a case.
 
 ```mermaid
 flowchart TB
@@ -33,19 +29,31 @@ flowchart TB
     subgraph as:Announce
         AnnounceEmbargo
     end 
-    start([Start]) --> v{Active?}
+    start([Start])
+    start --> f{Ask first?}
+    f -->|n| AddEmbargoToCase
     v -->|y| t{Terminate?}
     p{Propose?} -->|y| EmProposeEmbargo
-    EmAcceptEmbargo --> AddEmbargoToCase
+    EmAcceptEmbargo --> ActivateEmbargo
     EmProposeEmbargo --> a{Accept?}
     EmRejectEmbargo --> v
+    f -->|y| v{Active?}
     a -->|y| EmAcceptEmbargo
     a -->|n| EmRejectEmbargo
     t -->|n| p
     t{Terminate?} -->|y| RemoveEmbargoFromCase
     ActivateEmbargo --> t
-    AddEmbargoToCase --> ActivateEmbargo
-    p -->|n| v
+    AddEmbargoToCase --> t
     v -->|n| p
+    p -->|n| v
     RemoveEmbargoFromCase --> p
 ```
+
+{% include-markdown "./_propose_embargo.md"  heading-offset=1 %}
+{% include-markdown "./_accept_embargo.md" heading-offset=1 %}
+{% include-markdown "./_reject_embargo.md" heading-offset=1 %}
+{% include-markdown "./_activate_embargo.md" heading-offset=1 %}
+{% include-markdown "./_add_embargo_to_case.md" heading-offset=1 %}
+{% include-markdown "./_announce_embargo.md" heading-offset=1 %}
+
+{% include-markdown "./_remove_embargo_from_case.md" heading-offset=1 %}

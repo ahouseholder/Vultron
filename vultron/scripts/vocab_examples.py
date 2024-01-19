@@ -57,6 +57,7 @@ from vultron.as_vocab.activities.embargo import (
     EmAcceptEmbargo,
     EmProposeEmbargo,
     EmRejectEmbargo,
+    RemoveEmbargoFromCase,
 )
 from vultron.as_vocab.activities.report import (
     RmCloseReport,
@@ -915,5 +916,14 @@ def announce_embargo():
         as_object=embargo_event(90),
         context="https://vultron.example/cases/1",
         to="https://vultron.example/cases/1/participants",
+    )
+    return activity
+
+
+def remove_embargo():
+    activity = RemoveEmbargoFromCase(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=embargo_event(90),
+        origin="https://vultron.example/cases/1",
     )
     return activity
