@@ -763,6 +763,43 @@ def choose_preferred_embargo() -> ChoosePreferredEmbargo:
     return activity
 
 
+def accept_embargo() -> EmAcceptEmbargo:
+    question = choose_preferred_embargo()
+    _vendor = vendor()
+    activity = EmAcceptEmbargo(
+        actor=_vendor.as_id,
+        as_object=embargo_event(90),
+        context="https://vultron.example/cases/1",
+        in_reply_to=question.as_id,
+        to="https://vultron.example/cases/1/participants",
+    )
+    return activity
+
+
+def reject_embargo() -> EmRejectEmbargo:
+    question = choose_preferred_embargo()
+    activity = EmRejectEmbargo(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=embargo_event(45),
+        context="https://vultron.example/cases/1",
+        in_reply_to=question.as_id,
+        to="https://vultron.example/cases/1/participants",
+    )
+    return activity
+
+
+def add_embargo_to_case() -> AddEmbargoToCase:
+    _case = case()
+    _vendor = vendor()
+    activity = AddEmbargoToCase(
+        actor=_vendor.as_id,
+        as_object=embargo_event(90),
+        target=_case.as_id,
+        to=f"{_case.as_id}/participants",
+    )
+    return activity
+
+
 def main():
     outdir = "../../docs/reference/examples"
     print(f"Generating examples to: {outdir}")
@@ -935,43 +972,18 @@ def main():
         _choose_preferred_embargo, f"{outdir}/choose_preferred_embargo.json"
     )
 
+    _accept_embargo = accept_embargo()
+    obj_to_file(_accept_embargo, f"{outdir}/accept_embargo.json")
+
+    _reject_embargo = reject_embargo()
+    obj_to_file(_reject_embargo, f"{outdir}/reject_embargo.json")
+
+    _add_embargo_to_case = add_embargo_to_case()
+    obj_to_file(_add_embargo_to_case, f"{outdir}/add_embargo_to_case.json")
+
 
 if __name__ == "__main__":
     main()
-
-
-def accept_embargo():
-    question = choose_preferred_embargo()
-    activity = EmAcceptEmbargo(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(90),
-        context="https://vultron.example/cases/1",
-        in_reply_to=question.as_id,
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
-
-
-def reject_embargo():
-    question = choose_preferred_embargo()
-    activity = EmRejectEmbargo(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(45),
-        context="https://vultron.example/cases/1",
-        in_reply_to=question.as_id,
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
-
-
-def add_embargo_to_case():
-    activity = AddEmbargoToCase(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(90),
-        target="https://vultron.example/cases/1",
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
 
 
 def activate_embargo():

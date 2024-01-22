@@ -727,6 +727,48 @@ class MyTestCase(unittest.TestCase):
         for obj in activity.one_of:
             self.assertIsInstance(obj, as_Event)
 
+    def test_accept_embargo(self):
+        activity = examples.accept_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        question = examples.choose_preferred_embargo()
+
+        self.assertIsInstance(activity, as_Accept)
+        self.assertEqual(activity.as_type, "Accept")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertIsNotNone(activity.context)
+        self.assertIsNotNone(activity.to)
+        self.assertEqual(activity.in_reply_to, question.as_id)
+
+    def test_reject_embargo(self):
+        activity = examples.reject_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        question = examples.choose_preferred_embargo()
+
+        self.assertIsInstance(activity, as_Reject)
+        self.assertEqual(activity.as_type, "Reject")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertIsNotNone(activity.context)
+        self.assertIsNotNone(activity.to)
+        self.assertEqual(activity.in_reply_to, question.as_id)
+
+    def test_add_embargo_to_case(self):
+        activity = examples.add_embargo_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        embargo = examples.embargo_event()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object, embargo)
+
 
 if __name__ == "__main__":
     unittest.main()
