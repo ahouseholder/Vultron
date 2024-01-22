@@ -800,6 +800,43 @@ def add_embargo_to_case() -> AddEmbargoToCase:
     return activity
 
 
+def activate_embargo() -> ActivateEmbargo:
+    _case = case()
+    _vendor = vendor()
+    activity = ActivateEmbargo(
+        actor=_vendor.as_id,
+        as_object=propose_embargo().as_object,
+        target=_case.as_id,
+        in_reply_to=propose_embargo().as_id,
+        to=f"{_case.as_id}/participants",
+    )
+    return activity
+
+
+def announce_embargo() -> AnnounceEmbargo:
+    _vendor = vendor()
+    _case = case()
+
+    activity = AnnounceEmbargo(
+        actor=_vendor.as_id,
+        as_object=embargo_event(90),
+        context=_case.as_id,
+        to=f"{_case.as_id}/participants",
+    )
+    return activity
+
+
+def remove_embargo() -> RemoveEmbargoFromCase:
+    _vendor = vendor()
+    _case = case()
+    activity = RemoveEmbargoFromCase(
+        actor=_vendor.as_id,
+        as_object=embargo_event(90),
+        origin=_case.as_id,
+    )
+    return activity
+
+
 def main():
     outdir = "../../docs/reference/examples"
     print(f"Generating examples to: {outdir}")
@@ -981,36 +1018,15 @@ def main():
     _add_embargo_to_case = add_embargo_to_case()
     obj_to_file(_add_embargo_to_case, f"{outdir}/add_embargo_to_case.json")
 
+    _activate_embargo = activate_embargo()
+    obj_to_file(_activate_embargo, f"{outdir}/activate_embargo.json")
+
+    _announce_embargo = announce_embargo()
+    obj_to_file(_announce_embargo, f"{outdir}/announce_embargo.json")
+
+    _remove_embargo = remove_embargo()
+    obj_to_file(_remove_embargo, f"{outdir}/remove_embargo.json")
+
 
 if __name__ == "__main__":
     main()
-
-
-def activate_embargo():
-    activity = ActivateEmbargo(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=propose_embargo().as_object,
-        target="https://vultron.example/cases/1",
-        in_reply_to=propose_embargo().as_id,
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
-
-
-def announce_embargo():
-    activity = AnnounceEmbargo(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(90),
-        context="https://vultron.example/cases/1",
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
-
-
-def remove_embargo():
-    activity = RemoveEmbargoFromCase(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(90),
-        origin="https://vultron.example/cases/1",
-    )
-    return activity

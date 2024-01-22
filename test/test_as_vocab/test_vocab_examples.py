@@ -27,6 +27,7 @@ from vultron.as_vocab.base.objects.activities.intransitive import as_Question
 from vultron.as_vocab.base.objects.activities.transitive import (
     as_Accept,
     as_Add,
+    as_Announce,
     as_Create,
     as_Ignore,
     as_Invite,
@@ -767,6 +768,50 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(activity.actor, vendor.as_id)
         self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object, embargo)
+
+    def test_activate_embargo(self):
+        activity = examples.activate_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        embargo = examples.embargo_event()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object, embargo)
+
+    def test_announce_embargo(self):
+        activity = examples.announce_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        embargo = examples.embargo_event(days=90)
+
+        self.assertIsInstance(activity, as_Announce)
+        self.assertEqual(activity.as_type, "Announce")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.context, case.as_id)
+        self.assertEqual(activity.as_object, embargo)
+        self.assertIsNotNone(activity.to)
+
+    def test_remove_embargo(self):
+        activity = examples.remove_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        embargo = examples.embargo_event(days=90)
+
+        self.assertIsInstance(activity, as_Remove)
+        self.assertEqual(activity.as_type, "Remove")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.origin, case.as_id)
+        self.assertIsNone(activity.target)
         self.assertEqual(activity.as_object, embargo)
 
 
