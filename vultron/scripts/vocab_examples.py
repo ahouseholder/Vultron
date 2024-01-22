@@ -614,6 +614,7 @@ def create_participant():
 
 def case_status() -> CaseStatus:
     status = CaseStatus(
+        as_id="https://vultron.example/cases/1/status/1",
         context="https://vultron.example/cases/1",
         em_state=EM.EMBARGO_MANAGEMENT_NONE,
         pxa_state=CS_pxa.pxa,
@@ -632,8 +633,22 @@ def case_participant() -> CaseParticipant:
     return participant
 
 
+def coordinator_participant() -> CaseParticipant:
+    _actor = coordinator()
+    _case = case()
+
+    participant = CoordinatorParticipant(
+        as_id=f"{_case.as_id}/participants/coordinator",
+        name=_actor.name,
+        actor=_actor.as_id,
+        context=_case.as_id,
+    )
+    return participant
+
+
 def participant_status() -> ParticipantStatus:
     status = ParticipantStatus(
+        as_id="https://vultron.example/cases/1/participants/vendor/status/1",
         context="https://vultron.example/cases/1/participants/vendor",
         actor="https://vultron.example/organizations/vendor",
         rm_state=RM.RECEIVED,
@@ -661,6 +676,8 @@ def invite_to_case():
 
 def embargo_event(days: int = 90) -> as_Event:
     start_at = datetime.now().astimezone(tz=None)
+    # zero out the seconds and microseconds
+    start_at = start_at.replace(second=0, microsecond=0)
 
     # set end time to 90 days from now, with a time of 00:00:00, in UTC
     end_at = start_at + timedelta(days=days)
@@ -669,15 +686,81 @@ def embargo_event(days: int = 90) -> as_Event:
     # convert to UTC
     end_at = end_at.astimezone(tz=None)
 
+    _case = case()
+
     event = EmbargoEvent(
-        as_id=f"https://vultron.example/cases/1/embargo_events/{end_at.isoformat()}",
-        name="Embargo for case 1",
-        context="https://vultron.example/cases/1",
+        as_id=f"{_case.as_id}/embargo_events/{end_at.isoformat()}",
+        name=f"Embargo for {_case.name}",
+        context=_case.as_id,
         start_time=start_at,
         end_time=end_at,
-        content=f"We propose to embargo case 1 for {days} days.",
+        content=f"We propose to embargo {_case.name} for {days} days.",
     )
     return event
+
+
+def create_participant_status() -> ParticipantStatus:
+    pstatus = participant_status()
+
+    activity = CreateStatusForParticipant(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=pstatus,
+    )
+    return activity
+
+
+def add_status_to_participant() -> AddStatusToParticipant:
+    pstatus = participant_status()
+
+    activity = AddStatusToParticipant(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=pstatus,
+        target="https://vultron.example/cases/1/participants/vendor",
+    )
+    return activity
+
+
+def remove_participant_from_case():
+    _vendor = vendor()
+    _case = case()
+    coord_p = coordinator_participant()
+    activity = RemoveParticipantFromCase(
+        actor=_vendor.as_id,
+        as_object=coord_p.as_id,
+        origin=_case.as_id,
+        summary="Vendor is removing the coordinator from the case.",
+    )
+    return activity
+
+
+def propose_embargo() -> EmProposeEmbargo:
+    embargo = embargo_event()
+
+    activity = EmProposeEmbargo(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=embargo,
+        target=embargo.context,
+        summary="We propose to embargo case 1 for 90 days.",
+    )
+    return activity
+
+
+def choose_preferred_embargo() -> ChoosePreferredEmbargo:
+    embargo_list = [
+        embargo_event(90),
+        embargo_event(45),
+    ]
+
+    _case = case()
+    activity = ChoosePreferredEmbargo(
+        as_id="https://vultron.example/cases/1/polls/1",
+        actor="https://vultron.example/organizations/coordinator",
+        one_of=embargo_list,
+        summary="Please accept or reject each of the proposed embargoes.",
+        to=f"{_case.as_id}/participants",
+        context=_case.as_id,
+    )
+    return activity
 
 
 def main():
@@ -828,64 +911,33 @@ def main():
     _invite_to_case = invite_to_case()
     obj_to_file(_invite_to_case, f"{outdir}/invite_to_case.json")
 
+    _create_participant_status = create_participant_status()
+    obj_to_file(
+        _create_participant_status, f"{outdir}/create_participant_status.json"
+    )
+
+    _add_status_to_participant = add_status_to_participant()
+    obj_to_file(
+        _add_status_to_participant, f"{outdir}/add_status_to_participant.json"
+    )
+
+    _remove_participant_from_case = remove_participant_from_case()
+    obj_to_file(
+        _remove_participant_from_case,
+        f"{outdir}/remove_participant_from_case.json",
+    )
+
+    _propose_embargo = propose_embargo()
+    obj_to_file(_propose_embargo, f"{outdir}/propose_embargo.json")
+
+    _choose_preferred_embargo = choose_preferred_embargo()
+    obj_to_file(
+        _choose_preferred_embargo, f"{outdir}/choose_preferred_embargo.json"
+    )
+
 
 if __name__ == "__main__":
     main()
-
-
-def create_participant_status():
-    pstatus = participant_status()
-
-    activity = CreateStatusForParticipant(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=pstatus,
-    )
-    return activity
-
-
-def add_status_to_participant():
-    pstatus = participant_status()
-
-    activity = AddStatusToParticipant(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=pstatus,
-        target="https://vultron.example/cases/1/participants/vendor",
-    )
-    return activity
-
-
-def remove_participant_from_case():
-    activity = RemoveParticipantFromCase(
-        actor="https://vultron.example/organizations/vendor",
-        as_object="https://vultron.example/cases/1/participants/vendor",
-        origin="https://vultron.example/cases/1",
-    )
-    return activity
-
-
-def propose_embargo():
-    activity = EmProposeEmbargo(
-        actor="https://vultron.example/organizations/vendor",
-        as_object=embargo_event(),
-        target="https://vultron.example/cases/1",
-        summary="We propose to embargo case 1 for 90 days.",
-    )
-    return activity
-
-
-def choose_preferred_embargo():
-    embargo_list = [
-        embargo_event(90),
-        embargo_event(45),
-    ]
-    activity = ChoosePreferredEmbargo(
-        as_id="https://vultron.example/cases/1/polls/1",
-        actor="https://vultron.example/organizations/coordinator",
-        one_of=embargo_list,
-        summary="Please accept or reject each of the proposed embargoes.",
-        to="https://vultron.example/cases/1/participants",
-    )
-    return activity
 
 
 def accept_embargo():

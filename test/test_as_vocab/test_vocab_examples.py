@@ -23,6 +23,7 @@ from dataclasses_json import LetterCase, dataclass_json
 import vultron.scripts.vocab_examples as examples
 from vultron.as_vocab.base.base import as_Base
 from vultron.as_vocab.base.objects.activities.base import as_Activity
+from vultron.as_vocab.base.objects.activities.intransitive import as_Question
 from vultron.as_vocab.base.objects.activities.transitive import (
     as_Accept,
     as_Add,
@@ -34,6 +35,7 @@ from vultron.as_vocab.base.objects.activities.transitive import (
     as_Offer,
     as_Read,
     as_Reject,
+    as_Remove,
     as_Undo,
     as_Update,
 )
@@ -636,6 +638,94 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(activity.as_object, coordinator.as_id)
         self.assertEqual(activity.target, case.as_id)
         self.assertEqual(activity.to, coordinator.as_id)
+
+    def test_create_participant_status(self):
+        activity = examples.create_participant_status()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Create)
+        self.assertEqual(activity.as_type, "Create")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertIsInstance(activity.as_object, ParticipantStatus)
+
+    def test_add_status_to_participant(self):
+        activity = examples.add_status_to_participant()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coordinator = examples.coordinator()
+        status = examples.participant_status()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, coordinator.as_id)
+        self.assertEqual(activity.as_object, status.as_id)
+
+    def test_add_status_to_participant(self):
+        activity = examples.add_status_to_participant()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        status = examples.participant_status()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertIsNotNone(activity.target)
+        self.assertEqual(activity.as_object, status)
+
+    def test_remove_participant_from_case(self):
+        activity = examples.remove_participant_from_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        coord_p = examples.coordinator_participant()
+
+        self.assertIsInstance(activity, as_Remove)
+        self.assertEqual(activity.as_type, "Remove")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.as_object, coord_p.as_id)
+        self.assertEqual(activity.origin, case.as_id)
+
+    def test_propose_embargo(self):
+        activity = examples.propose_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        embargo = examples.embargo_event()
+
+        self.assertIsInstance(activity, as_Invite)
+        self.assertEqual(activity.as_type, "Invite")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.as_object, embargo)
+        self.assertEqual(activity.target, case.as_id)
+
+    def test_choose_preferred_embargo(self):
+        activity = examples.choose_preferred_embargo()
+        self.assertIsInstance(activity, as_Activity)
+        case = examples.case()
+        embargo = examples.embargo_event()
+        coordinator = examples.coordinator()
+
+        # is it a question?
+        self.assertIsInstance(activity, as_Question)
+
+        self.assertEqual(activity.actor, coordinator.as_id)
+        self.assertIn(case.as_id, activity.context)
+
+        # one_of is a list, is non-empty, and contains embargo events
+        self.assertIsInstance(activity.one_of, Sequence)
+        self.assertGreaterEqual(len(activity.one_of), 1)
+        for obj in activity.one_of:
+            self.assertIsInstance(obj, as_Event)
 
 
 if __name__ == "__main__":
