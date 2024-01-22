@@ -4,8 +4,6 @@
   "id": "https://vultron.example/cases/VDR-20991514/participants/finn",
   "name": "Finn der Vul",
   "context": "https://vultron.example/cases/VDR-20991514",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "actor": "https://vultron.example/users/finn",
   "caseRoles": [
     "FINDER",
@@ -15,11 +13,11 @@
     {
       "@context": "https://www.w3.org/ns/activitystreams",
       "type": "ParticipantStatus",
-      "id": "https://for.example/851f5b4a-e88b-4068-9ee7-1b1547a5c03c",
+      "id": "https://for.example/cffebd9b-f9ad-4e33-9d52-392eead68dc6",
       "name": "REPORT_MANAGEMENT_ACCEPTED vfd",
       "context": "https://vultron.example/cases/VDR-20991514",
-      "published": "2024-01-11T20:57:58+00:00",
-      "updated": "2024-01-11T20:57:58+00:00",
+      "published": "2024-01-22T20:29:47+00:00",
+      "updated": "2024-01-22T20:29:47+00:00",
       "actor": "https://vultron.example/users/finn",
       "rmState": "REPORT_MANAGEMENT_ACCEPTED",
       "vfdState": "vfd",

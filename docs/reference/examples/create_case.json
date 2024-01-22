@@ -1,11 +1,9 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Create",
-  "id": "https://for.example/4cad8292-91d6-4410-a41a-989fb84af725",
+  "id": "https://for.example/79f5ae6c-c0c2-4a95-a3e8-90b10134d88d",
   "name": "https://vultron.example/organizations/vendor Create VENDOR Case #20991514",
   "context": "https://vultron.example/reports/FDR-8675309",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "content": "We've created a case from this report.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": {
@@ -13,17 +11,17 @@
     "type": "VulnerabilityCase",
     "id": "https://vultron.example/cases/VDR-20991514",
     "name": "VENDOR Case #20991514",
-    "published": "2024-01-11T20:57:58+00:00",
-    "updated": "2024-01-11T20:57:58+00:00",
+    "published": "2024-01-22T20:29:47+00:00",
+    "updated": "2024-01-22T20:29:47+00:00",
     "caseParticipants": [
       {
         "@context": "https://www.w3.org/ns/activitystreams",
         "type": "CaseParticipant",
-        "id": "https://for.example/6ef2a4e0-3b60-49b5-bdd8-c7d061011bbd",
+        "id": "https://for.example/b40a8168-48db-4314-86c8-b87f1f2ea65c",
         "name": "VendorCo",
         "context": null,
-        "published": "2024-01-11T20:57:58+00:00",
-        "updated": "2024-01-11T20:57:58+00:00",
+        "published": "2024-01-22T20:29:47+00:00",
+        "updated": "2024-01-22T20:29:47+00:00",
         "actor": "https://vultron.example/organizations/vendor",
         "caseRoles": [
           "VENDOR"
@@ -32,11 +30,11 @@
           {
             "@context": "https://www.w3.org/ns/activitystreams",
             "type": "ParticipantStatus",
-            "id": "https://for.example/1596ed58-1bb2-4cb0-a09f-4773acb43bbc",
+            "id": "https://for.example/e6638fee-5bb2-41ec-a07b-7018c1f10f40",
             "name": "REPORT_MANAGEMENT_START vfd",
             "context": null,
-            "published": "2024-01-11T20:57:58+00:00",
-            "updated": "2024-01-11T20:57:58+00:00",
+            "published": "2024-01-22T20:29:47+00:00",
+            "updated": "2024-01-22T20:29:47+00:00",
             "actor": "https://vultron.example/organizations/vendor",
             "rmState": "REPORT_MANAGEMENT_START",
             "vfdState": "vfd",
@@ -53,11 +51,11 @@
       {
         "@context": "https://www.w3.org/ns/activitystreams",
         "type": "CaseStatus",
-        "id": "https://for.example/f26d2354-04fb-4948-8ff9-c38c2040e240",
+        "id": "https://for.example/b977d907-6101-4439-848f-c97a68cd0989",
         "name": "EMBARGO_MANAGEMENT_NONE pxa",
         "context": "https://vultron.example/cases/VDR-20991514",
-        "published": "2024-01-11T20:57:58+00:00",
-        "updated": "2024-01-11T20:57:58+00:00",
+        "published": "2024-01-22T20:29:47+00:00",
+        "updated": "2024-01-22T20:29:47+00:00",
         "emState": "EMBARGO_MANAGEMENT_NONE",
         "pxaState": "pxa"
       }

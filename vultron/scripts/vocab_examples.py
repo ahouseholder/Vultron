@@ -116,6 +116,11 @@ def json2md(obj: as_Base) -> str:
     Returns:
         a markdown-formatted string of the object's JSON
     """
+
+    # strip out published and updated timestamps
+    obj.published = None
+    obj.updated = None
+
     if not hasattr(obj, "to_json"):
         raise TypeError(f"obj must have a to_json method: {obj}")
 
@@ -133,6 +138,10 @@ def obj_to_file(obj: as_Base, filename: str) -> None:
     Returns:
         None
     """
+    # strip out published and updated timestamps
+    obj.published = None
+    obj.updated = None
+
     with open(filename, "w") as fp:
         fp.write(obj.to_json(indent=2))
 
@@ -881,6 +890,10 @@ def main():
     # activity: vendor closes _report
     activity = close_report()
     obj_to_file(activity, f"{outdir}/close_report.json")
+
+    # case object
+    _case = case()
+    obj_to_file(_case, f"{outdir}/vulnerability_case.json")
 
     # activity: vendor creates case from _report
     activity = create_case()

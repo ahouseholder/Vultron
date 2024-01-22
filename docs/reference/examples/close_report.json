@@ -1,10 +1,8 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Leave",
-  "id": "https://for.example/0beb966a-eb6f-474c-8219-6dc2049989d3",
+  "id": "https://for.example/968811e7-17cf-42b3-8128-11979e834ef4",
   "name": "https://vultron.example/organizations/vendor Leave https://vultron.example/reports/FDR-8675309",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "content": "We're closing this report.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": "https://vultron.example/reports/FDR-8675309"

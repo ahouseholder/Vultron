@@ -1,10 +1,8 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Ignore",
-  "id": "https://for.example/16da7b7a-2a76-4292-bfd5-354e736c2725",
+  "id": "https://for.example/3069563e-2d2e-47b8-ad78-f4f295ece3b1",
   "name": "https://vultron.example/organizations/vendor Ignore https://vultron.example/cases/VDR-20991514",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "content": "We're deferring this case.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": "https://vultron.example/cases/VDR-20991514"

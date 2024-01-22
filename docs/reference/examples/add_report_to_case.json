@@ -1,10 +1,8 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Add",
-  "id": "https://for.example/9a790e1c-611a-41af-bf4b-7303425b0601",
+  "id": "https://for.example/f1a1d054-9510-4a6b-889f-e92b3875b727",
   "name": "https://vultron.example/organizations/vendor Add https://vultron.example/reports/FDR-8675309 to https://vultron.example/cases/VDR-20991514",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "content": "We're adding this report to this case.",
   "actor": "https://vultron.example/organizations/vendor",
   "target": "https://vultron.example/cases/VDR-20991514",

@@ -1,10 +1,8 @@
 {
   "@context": "https://www.w3.org/ns/activitystreams",
   "asType": "Reject",
-  "id": "https://for.example/c8c0c919-504a-43e8-bbc2-b4e7b467035a",
+  "id": "https://for.example/d95d133d-e51a-4220-8da2-f5f18412e5e0",
   "name": "https://vultron.example/organizations/vendor Reject https://vultron.example/reports/FDR-8675309",
-  "published": "2024-01-11T20:57:58+00:00",
-  "updated": "2024-01-11T20:57:58+00:00",
   "content": "We're declining this report as invalid. If you have a reason we should reconsider, please let us know. Otherwise we'll be closing it shortly.",
   "actor": "https://vultron.example/organizations/vendor",
   "object": "https://vultron.example/reports/FDR-8675309"
