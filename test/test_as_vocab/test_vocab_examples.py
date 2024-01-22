@@ -10,11 +10,13 @@
 #  (“Third Party Software”). See LICENSE.md for more details.
 #  Carnegie Mellon®, CERT® and CERT Coordination Center® are registered in the
 #  U.S. Patent and Trademark Office by Carnegie Mellon University
+import datetime
 import json
 import os
 import tempfile
 import unittest
 from dataclasses import dataclass
+from typing import Sequence
 
 from dataclasses_json import LetterCase, dataclass_json
 
@@ -37,9 +39,14 @@ from vultron.as_vocab.base.objects.activities.transitive import (
 )
 from vultron.as_vocab.base.objects.actors import as_Actor, as_Organization
 from vultron.as_vocab.base.objects.base import as_Object
-from vultron.as_vocab.base.objects.object_types import as_Note
+from vultron.as_vocab.base.objects.object_types import as_Event, as_Note
+from vultron.as_vocab.objects.case_participant import CaseParticipant
+from vultron.as_vocab.objects.case_status import CaseStatus, ParticipantStatus
 from vultron.as_vocab.objects.vulnerability_case import VulnerabilityCase
 from vultron.as_vocab.objects.vulnerability_report import VulnerabilityReport
+from vultron.bt.embargo_management.states import EM
+from vultron.bt.report_management.states import RM
+from vultron.case_states.states import CS_pxa, CS_vfd
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -547,6 +554,89 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(activity.as_object.actor, coordinator.as_id)
         self.assertEqual(activity.as_object.context, case.as_id)
         self.assertEqual(activity.as_object.name, coordinator.name)
+
+    def test_case_status(self):
+        obj = examples.case_status()
+        self.assertIsInstance(obj, as_Object)
+        self.assertIsInstance(obj, CaseStatus)
+        self.assertIn(obj.em_state, EM)
+        self.assertIn(obj.pxa_state, CS_pxa)
+
+    def test_participant_status(self):
+        obj = examples.participant_status()
+        self.assertIsInstance(obj, as_Object)
+        self.assertIsInstance(obj, ParticipantStatus)
+
+        # actor and context are required
+        self.assertIsNotNone(obj.actor)
+        self.assertIsNotNone(obj.context)
+
+        self.assertIn(obj.rm_state, RM)
+        self.assertIn(obj.vfd_state, CS_vfd)
+
+        if obj.case_status is not None:
+            self.assertIsInstance(obj.case_status, CaseStatus)
+            self.assertIn(obj.case_status.em_state, EM)
+            self.assertIn(obj.case_status.pxa_state, CS_pxa)
+
+    def test_case_participant(self):
+        obj = examples.case_participant()
+        self.assertIsInstance(obj, as_Object)
+        self.assertIsInstance(obj, CaseParticipant)
+
+        # actor and context are required
+        self.assertIsNotNone(obj.as_id)
+        self.assertIsNotNone(obj.name)
+        self.assertIsNotNone(obj.actor)
+        self.assertIsNotNone(obj.context)
+
+        # status should be a list of ParticipantStatus objects
+        # and there should be at least one
+        self.assertIsInstance(obj.participant_status, Sequence)
+        self.assertGreaterEqual(len(obj.participant_status), 1)
+        for status in obj.participant_status:
+            self.assertIsInstance(status, ParticipantStatus)
+
+    def test_embargo_event(self):
+        obj = examples.embargo_event()
+        self.assertIsInstance(obj, as_Object)
+        self.assertIsInstance(obj, as_Event)
+
+        # id, name, and context are required
+        self.assertIsNotNone(obj.as_id)
+        self.assertIsNotNone(obj.name)
+        self.assertIsNotNone(obj.context)
+
+        # end time is required
+        # end time should be a TZ-aware datetime
+        self.assertIsNotNone(obj.end_time)
+        self.assertIsInstance(obj.end_time, datetime.datetime)
+        self.assertIsNotNone(obj.end_time.tzinfo)
+
+        if obj.start_time is not None:
+            # start time should be a TZ-aware datetime
+            self.assertIsNotNone(obj.start_time)
+            self.assertIsInstance(obj.start_time, datetime.datetime)
+            self.assertIsNotNone(obj.start_time.tzinfo)
+            # start time should be at or before end time
+            self.assertLessEqual(obj.start_time, obj.end_time)
+
+    def test_invite_to_case(self):
+        activity = examples.invite_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        finder = examples.finder()
+        coordinator = examples.coordinator()
+
+        self.assertIsInstance(activity, as_Invite)
+        self.assertEqual(activity.as_type, "Invite")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.as_object, coordinator.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.to, coordinator.as_id)
+
 
 if __name__ == "__main__":
     unittest.main()

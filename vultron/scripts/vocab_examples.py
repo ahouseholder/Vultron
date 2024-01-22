@@ -72,8 +72,9 @@ from vultron.as_vocab.base.objects.activities.transitive import (
     as_Undo,
 )
 from vultron.as_vocab.base.objects.actors import as_Organization, as_Person
-from vultron.as_vocab.base.objects.object_types import as_Note
+from vultron.as_vocab.base.objects.object_types import as_Event, as_Note
 from vultron.as_vocab.objects.case_participant import (
+    CaseParticipant,
     CoordinatorParticipant,
     FinderReporterParticipant,
     VendorParticipant,
@@ -611,6 +612,74 @@ def create_participant():
     return _activity
 
 
+def case_status() -> CaseStatus:
+    status = CaseStatus(
+        context="https://vultron.example/cases/1",
+        em_state=EM.EMBARGO_MANAGEMENT_NONE,
+        pxa_state=CS_pxa.pxa,
+    )
+    return status
+
+
+def case_participant() -> CaseParticipant:
+    participant = VendorParticipant(
+        as_id="https://vultron.example/cases/1/participants/vendor",
+        name="Vendor",
+        actor="https://vultron.example/organizations/vendor",
+        context="https://vultron.example/cases/1",
+        participant_status=[participant_status()],
+    )
+    return participant
+
+
+def participant_status() -> ParticipantStatus:
+    status = ParticipantStatus(
+        context="https://vultron.example/cases/1/participants/vendor",
+        actor="https://vultron.example/organizations/vendor",
+        rm_state=RM.RECEIVED,
+        vfd_state=CS_vfd.Vfd,
+        case_status=case_status(),
+    )
+    return status
+
+
+def invite_to_case():
+    _case = case()
+    _coordinator = coordinator()
+    _vendor = vendor()
+
+    activity = RmInviteToCase(
+        as_id=f"{_case.as_id}/invitation/1",
+        actor=_vendor.as_id,
+        as_object=_coordinator.as_id,
+        target=_case.as_id,
+        to=_coordinator.as_id,
+        content=f"We're inviting you to participate in case {_case.name}.",
+    )
+    return activity
+
+
+def embargo_event(days: int = 90) -> as_Event:
+    start_at = datetime.now().astimezone(tz=None)
+
+    # set end time to 90 days from now, with a time of 00:00:00, in UTC
+    end_at = start_at + timedelta(days=days)
+    # zero out the time
+    end_at = end_at.replace(hour=0, minute=0, second=0, microsecond=0)
+    # convert to UTC
+    end_at = end_at.astimezone(tz=None)
+
+    event = EmbargoEvent(
+        as_id=f"https://vultron.example/cases/1/embargo_events/{end_at.isoformat()}",
+        name="Embargo for case 1",
+        context="https://vultron.example/cases/1",
+        start_time=start_at,
+        end_time=end_at,
+        content=f"We propose to embargo case 1 for {days} days.",
+    )
+    return event
+
+
 def main():
     outdir = "../../docs/reference/examples"
     print(f"Generating examples to: {outdir}")
@@ -744,70 +813,24 @@ def main():
     activity = create_participant()
     obj_to_file(activity, f"{outdir}/create_participant.json")
 
+    _case_status = case_status()
+    obj_to_file(_case_status, f"{outdir}/case_status.json")
+
+    _participant_status = participant_status()
+    obj_to_file(_participant_status, f"{outdir}/participant_status.json")
+
+    _case_participant = case_participant()
+    obj_to_file(_case_participant, f"{outdir}/case_participant.json")
+
+    _embargo_event = embargo_event()
+    obj_to_file(_embargo_event, f"{outdir}/embargo_event.json")
+
+    _invite_to_case = invite_to_case()
+    obj_to_file(_invite_to_case, f"{outdir}/invite_to_case.json")
+
 
 if __name__ == "__main__":
     main()
-
-
-def case_status():
-    status = CaseStatus(
-        context="https://vultron.example/cases/1",
-        em_state=EM.EMBARGO_MANAGEMENT_NONE,
-        pxa_state=CS_pxa.pxa,
-    )
-    return status
-
-
-def participant_status():
-    status = ParticipantStatus(
-        context="https://vultron.example/cases/1/participants/vendor",
-        actor="https://vultron.example/organizations/vendor",
-        rm_state=RM.RECEIVED,
-        vfd_state=CS_vfd.Vfd,
-        case_status=case_status(),
-    )
-    return status
-
-
-def case_participant():
-    participant = VendorParticipant(
-        as_id="https://vultron.example/cases/1/participants/vendor",
-        name="Vendor",
-        actor="https://vultron.example/organizations/vendor",
-        context="https://vultron.example/cases/1",
-        participant_status=[participant_status()],
-    )
-    return participant
-
-
-def embargo_event(days: int = 90):
-    # set end time to 90 days from now, with a time of 00:00:00, in UTC
-    end_at = datetime.now() + timedelta(days=days)
-    # zero out the time
-    end_at = end_at.replace(hour=0, minute=0, second=0, microsecond=0)
-    # convert to UTC
-    end_at = end_at.astimezone(tz=None)
-
-    event = EmbargoEvent(
-        as_id=f"https://vultron.example/cases/1/embargo_events/{end_at.isoformat()}",
-        name="Embargo for case 1",
-        context="https://vultron.example/cases/1",
-        end_time=end_at,
-        content=f"We propose to embargo case 1 for {days} days.",
-    )
-    return event
-
-
-def invite_to_case():
-    activity = RmInviteToCase(
-        as_id="https://vultron.example/cases/1/invitation/1",
-        actor="https://vultron.example/organizations/vendor",
-        as_object="https://vultron.example/organizations/coordinator",
-        target="https://vultron.example/cases/1",
-        to="https://vultron.example/organizations/coordinator",
-        content="We're inviting you to participate in case 1.",
-    )
-    return activity
 
 
 def create_participant_status():
