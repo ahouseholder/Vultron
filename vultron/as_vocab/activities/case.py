@@ -104,6 +104,19 @@ class CreateCase(as_Create):
     )
 
 
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass(kw_only=True)
+class CreateCaseStatus(as_Create):
+    """Create a CaseStatus.
+    as_object: CaseStatus
+    """
+
+    as_type: str = field(default="Create", init=False)
+    as_object: Optional[CaseStatus | as_Link | str] = field(
+        metadata=config(field_name="object"), default=None, repr=True
+    )
+
+
 # Add a Note to a VulnerabilityCase
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass(kw_only=True)

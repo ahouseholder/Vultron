@@ -814,6 +814,48 @@ class MyTestCase(unittest.TestCase):
         self.assertIsNone(activity.target)
         self.assertEqual(activity.as_object, embargo)
 
+    def test_create_case_status(self):
+        activity = examples.create_case_status()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        status = examples.case_status()
+
+        self.assertIsInstance(activity, as_Create)
+        self.assertEqual(activity.as_type, "Create")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.context, case.as_id)
+        self.assertEqual(activity.as_object, status)
+
+    def test_add_case_status_to_case(self):
+        activity = examples.add_status_to_case()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        status = examples.case_status()
+
+        self.assertIsInstance(activity, as_Add)
+        self.assertEqual(activity.as_type, "Add")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object, status)
+
+    def test_create_note(self):
+        activity = examples.create_note()
+        self.assertIsInstance(activity, as_Activity)
+        vendor = examples.vendor()
+        case = examples.case()
+        note = examples.note()
+
+        self.assertIsInstance(activity, as_Create)
+        self.assertEqual(activity.as_type, "Create")
+
+        self.assertEqual(activity.actor, vendor.as_id)
+        self.assertEqual(activity.target, case.as_id)
+        self.assertEqual(activity.as_object, note)
+
 
 if __name__ == "__main__":
     unittest.main()

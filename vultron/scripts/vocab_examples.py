@@ -31,7 +31,9 @@ from vultron.as_vocab.activities.case import (
     AcceptCaseOwnershipTransfer,
     AddNoteToCase,
     AddReportToCase,
+    AddStatusToCase,
     CreateCase,
+    CreateCaseStatus,
     OfferCaseOwnershipTransfer,
     RejectCaseOwnershipTransfer,
     RmAcceptInviteToCase,
@@ -69,6 +71,7 @@ from vultron.as_vocab.activities.report import (
 )
 from vultron.as_vocab.base.base import as_Base
 from vultron.as_vocab.base.objects.activities.transitive import (
+    as_Create,
     as_Undo,
 )
 from vultron.as_vocab.base.objects.actors import as_Organization, as_Person
@@ -429,10 +432,12 @@ def reengage_case() -> as_Undo:
 
 
 def note() -> as_Note:
+    _case = case()
     _note = as_Note(
         name="Note",
-        as_id=f"{case_base_url}/notes/1",
+        as_id=f"{base_url}/notes/1",
         content="This is a note.",
+        context=_case.as_id,
     )
     return _note
 
@@ -629,6 +634,19 @@ def case_status() -> CaseStatus:
         pxa_state=CS_pxa.pxa,
     )
     return status
+
+
+def create_case_status():
+    actor = vendor()
+    status = case_status()
+    _case = case()
+
+    activity = CreateCaseStatus(
+        actor=actor.as_id,
+        as_object=status,
+        context=_case.as_id,
+    )
+    return activity
 
 
 def case_participant() -> CaseParticipant:
@@ -846,6 +864,29 @@ def remove_embargo() -> RemoveEmbargoFromCase:
     return activity
 
 
+def add_status_to_case() -> AddStatusToCase:
+    _vendor = vendor()
+    _case = case()
+    _status = case_status()
+    activity = AddStatusToCase(
+        actor=_vendor.as_id,
+        as_object=_status,
+        target=_case.as_id,
+    )
+    return activity
+
+
+def create_note():
+    _case = case()
+    _note = note()
+    activity = as_Create(
+        actor="https://vultron.example/organizations/vendor",
+        as_object=_note,
+        target=_case.as_id,
+    )
+    return activity
+
+
 def main():
     outdir = "../../docs/reference/examples"
     print(f"Generating examples to: {outdir}")
@@ -986,6 +1027,12 @@ def main():
     _case_status = case_status()
     obj_to_file(_case_status, f"{outdir}/case_status.json")
 
+    _create_case_status = create_case_status()
+    obj_to_file(_create_case_status, f"{outdir}/create_case_status.json")
+
+    _add_status_to_case = add_status_to_case()
+    obj_to_file(_add_status_to_case, f"{outdir}/add_status_to_case.json")
+
     _participant_status = participant_status()
     obj_to_file(_participant_status, f"{outdir}/participant_status.json")
 
@@ -1039,6 +1086,9 @@ def main():
 
     _remove_embargo = remove_embargo()
     obj_to_file(_remove_embargo, f"{outdir}/remove_embargo.json")
+
+    _create_note = create_note()
+    obj_to_file(_create_note, f"{outdir}/create_note.json")
 
 
 if __name__ == "__main__":
