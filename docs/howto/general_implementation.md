@@ -33,7 +33,6 @@ As long as the structure and semantics are well defined, most standard data form
     encryption) might be better addressed in the context of ActivityPub rather than reinventing the wheel.
     See [Vultron ActivityPub](./activitypub/index.md) for more information. 
 
-
 <!-- hr to force spacing -->
 ----
 
