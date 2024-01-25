@@ -1,5 +1,7 @@
 # Inviting an Actor to a Case
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 ```mermaid
 flowchart LR
     subgraph as:Invite

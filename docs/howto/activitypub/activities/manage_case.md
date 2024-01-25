@@ -1,5 +1,7 @@
 # Managing a Case
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 Case management activities reflect the
 [Report Management](../../../topics/process_models/rm/index.md) process model.
 

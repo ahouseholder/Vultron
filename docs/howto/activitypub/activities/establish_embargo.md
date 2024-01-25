@@ -1,5 +1,7 @@
 # Establishing an Embargo
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 {% include-markdown "./_em_blurb.md" %}
 
 The process to establish an embargo for a case can start in

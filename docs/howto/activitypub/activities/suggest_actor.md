@@ -1,5 +1,7 @@
 # Suggesting an Actor for a Case
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 ```mermaid
 flowchart TB
     subgraph as:Offer

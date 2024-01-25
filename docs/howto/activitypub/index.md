@@ -1,5 +1,7 @@
 # Vultron and ActivityPub
 
+{% include-markdown "../../includes/not_normative.md" %}
+
 The Vultron protocol can be mapped onto the [ActivityPub](https://www.w3.org/TR/activitypub/)
 protocol. This mapping is described in the
 [Vultron ActivityStreams Ontology](../../reference/ontology/vultron_as.md).

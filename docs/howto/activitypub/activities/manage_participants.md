@@ -1,5 +1,7 @@
 # Managing Case Participants
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 Typically most cases involve multiple participants, having various roles
 within the case. While the most common activities are inviting and adding
 participants, we've also included activities for removing participants.

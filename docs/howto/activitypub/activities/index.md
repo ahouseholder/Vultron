@@ -1,5 +1,7 @@
 # Activities
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 Activities are the core of the ActivityPub protocol. They are used to
 represent actions that are performed by actors. The ActivityStreams
 vocabulary defines a number of activities, and we extend these with specific

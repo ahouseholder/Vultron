@@ -1,5 +1,7 @@
 # Initializing a CaseParticipant
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 It may not always be necessary to generate a new `CreateParticipant` activity when creating a new `VulnerabilityCase`
 object. It is possible to create a new `VulnerabilityCase` object and add a new `CaseParticipant` object to it in a
 single `Create` activity.

@@ -1,10 +1,19 @@
 # Vultron ActivityStreams Objects
 
+{% include-markdown "../../includes/not_normative.md" %}
+
 Vultron ActivityStreams (Vultron AS) is an extension of the
 [ActivityStreams vocabulary](https://www.w3.org/TR/activitystreams-vocabulary/)
 to describe the mapping of Vultron to ActivityStreams.
 
 ## ActivityStreams native objects
+
+The ActivityStreams Vocabulary defines a number of native object types that can be used to represent objects in the
+ActivityPub protocol. These fall into the following categories:
+
+- **Actors** (see [below](#actors))
+- **Activities** (see the [Activities](./activities/index.md) section for more information)
+- **Other (non-Activity) Object Types** (see [below](#other-non-activity-object-types))
 
 ### Actors
 

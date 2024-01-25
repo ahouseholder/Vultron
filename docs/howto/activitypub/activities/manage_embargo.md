@@ -1,5 +1,7 @@
 # Managing an Embargo
 
+{% include-markdown "../../../includes/not_normative.md" %}
+
 {% include-markdown "./_em_blurb.md" %}
 
 This diagram is similar to the one shown in [Establishing an Embargo](./establish_embargo.md), but it also shows the
