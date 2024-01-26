@@ -22,7 +22,7 @@ one of two ways:
     the case yet, the finder can just add an embargo. Then when the finder invites others to join the case, the invited
     participants can
     decide whether to accept the embargo or not. This could be an appropriate way to address the concept of
-    [Default Embargoes](../../topics/process_models/em/default.md).
+    [Default Embargoes](../../../topics/process_models/em/default.md).
 
 ```mermaid
 flowchart TB
