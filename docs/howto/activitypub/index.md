@@ -43,6 +43,9 @@ to describe the mapping of Vultron to ActivityStreams.
 Vultron AS defines a number of new objects and activities that are used in the
 Vultron protocol. These are described in the following sections:
 
-- [Objects](objects.md) - We begin with a description of a few objects that are used in the
-Vultron AS vocabulary.
-- [Activities](activities/index.md) - Then we describe the activities that are used in the Vultron AS vocabulary.
+<div class="grid cards" markdown>
+
+- :material-bolt: [__Objects__](objects.md) specific to the Vultron AS vocabulary
+- :material-wrench: [__Activities__](activities/index.md) used in the Vultron AS vocabulary
+
+</div>
