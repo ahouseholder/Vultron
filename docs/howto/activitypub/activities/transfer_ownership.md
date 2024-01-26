@@ -16,24 +16,26 @@ The presumption here is that the initial creator of a case is its owner.
 Subsequent to that, the existing owner can offer to transfer ownership to
 another participant. The new owner can then accept or reject the offer.
 
+We use a sequence diagram instead of a flow chart since the process is
+relatively simple and the sequence diagram is easier to read.
+
 ```mermaid
-flowchart TB
-    subgraph as:Invite
-        OfferCaseOwnershipTransfer
+sequenceDiagram
+    actor A as Current Case Owner
+    actor B as Potential Case Owner
+    participant C as Case
+    A ->> B: Offer(object=Case)
+    note over B: Consider offer
+    activate B
+    alt Accept Offer
+        B -->> A: Accept(object=Case, inReplyTo=Offer)
+        A ->> C: Update(object=Case)
+        note over C: Case has new owner
+    else Reject Offer
+        B -->> A: Reject(object=Case, inReplyTo=Offer)
+        note over C: Case ownership unchanged
     end
-    subgraph as:Accept
-        AcceptCaseOwnershipTransfer
-    end
-    subgraph as:Reject
-        RejectCaseOwnershipTransfer
-    end
-    subgraph as:Update
-        UpdateCase
-    end
-    OfferCaseOwnershipTransfer --> a{Accept?}
-    a -->|y| AcceptCaseOwnershipTransfer
-    a -->|n| RejectCaseOwnershipTransfer
-    AcceptCaseOwnershipTransfer --> UpdateCase
+    deactivate B
 ```
 
 ## Offer Case Ownership Transfer

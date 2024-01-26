@@ -12,7 +12,7 @@ known at the time the case is created, but they might be added later. In this sc
 case with just the coordinator and the finder/reporter to start, and then add the vendors as participants in separate
 steps as they are identified.
 
-!!! note "Case Participants vs Actors"
+!!! question "What's the difference between a Case Participant and an Actor?"
 
     ActivityStreams actor objects are used to represent long-lived identities of people, organizations, groups, or 
     software agents.

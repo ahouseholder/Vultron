@@ -2,12 +2,16 @@
 
 {% include-markdown "../../../includes/not_normative.md" %}
 
-{% include-markdown "./_em_blurb.md" %}
-
 This diagram is similar to the one shown in [Establishing an Embargo](./establish_embargo.md), but it also shows the
 decisions and activities that are used to manage an embargo once it has been established.
 Once established, an embargo can be modified via a propose/accept/reject cycle.
 It can also be terminated or removed from a case.
+
+<!-- for vertical spacing -->
+<br/>
+<br/>
+
+{% include-markdown "./_em_blurb.md" %}
 
 ```mermaid
 flowchart TB

@@ -17,15 +17,7 @@ ActivityPub protocol. These fall into the following categories:
 
 ### Actors
 
-The standard ActivityStreams actor types can be used in Vultron. These include:
-
-- `as:Person`
-- `as:Organization`
-- `as:Group`
-- `as:Service`
-- `as:Application`
-
-!!! info "Actor vs CaseParticipant"
+!!! info inline end "Actor vs CaseParticipant"
 
     As we will see below, we will introduce a new object type called [`CaseParticipant`](#caseparticipant)
     to represent the participants in a `VulnerabilityCase`.
@@ -34,6 +26,14 @@ The standard ActivityStreams actor types can be used in Vultron. These include:
     specific `VulnerabilityCase` object.
     We need to make this distinction so that the Vultron protocol can represent a single actor participating in 
     multiple cases, with discrete roles and statuses within the context of each case.
+
+The standard ActivityStreams actor types can be used in Vultron. These include:
+
+- `as:Person`
+- `as:Organization`
+- `as:Group`
+- `as:Service`
+- `as:Application`
 
 ### Other (non-Activity) Object Types
 
@@ -58,6 +58,11 @@ as needed, but we do not define any special semantics for these objects in the c
 
 ## Vultron-specific objects
 
+!!! tip inline end "See also"
+
+    As a reminder, we already described these objects in the [Case Object](../case_object.md) section.
+    This section is intended to describe how these objects are represented as ActivityStreams objects.
+
 We define the following objects for use in the Vultron AS vocabulary:
 
 - [`VulnerabilityReport`](#vulnerabilityreport)
@@ -66,9 +71,6 @@ We define the following objects for use in the Vultron AS vocabulary:
 - [`CaseParticipant`](#caseparticipant)
 - [`ParticipantStatus`](#participantstatus)
 - [`EmbargoEvent`](#embargoevent)
-
-As a reminder, we already described these objects in the [Case Object](../case_object.md) section.
-This section is intended to describe how these objects are represented as ActivityStreams objects.
 
 ### VulnerabilityReport
 

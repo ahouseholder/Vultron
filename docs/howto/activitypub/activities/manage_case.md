@@ -29,9 +29,6 @@ flowchart TB
         subgraph as:Join
             RmEngageCase
         end
-        subgraph as:Undo
-            RmReEngageCase
-        end
     end
     subgraph RM:DEFERRED
         subgraph as:Ignore
@@ -45,18 +42,26 @@ flowchart TB
         end
     end
 
-    RmSubmitReport --> RmValidateReport
-    RmSubmitReport --> RmInvalidateReport
+    d{Done?}
+    c{Close?}
+    p{Priority?}
+    v{Valid?}
+    start([Start])
+    start --> RmSubmitReport
+    RmSubmitReport --> v
+    v -->|y| RmValidateReport
+    v -->|n| RmInvalidateReport
+    RmInvalidateReport --> c
+    c -->|y| RmCloseReport
     RmValidateReport --> CreateCase
-    CreateCase --> RmEngageCase
-    RmInvalidateReport --> RmValidateReport
-    RmEngageCase --> RmCloseCase
-    RmEngageCase --> RmDeferCase
-    CreateCase --> RmDeferCase
-    RmDeferCase --> RmEngageCase
-    RmDeferCase --> RmCloseCase
-    RmDeferCase --> RmReEngageCase
-    RmInvalidateReport --> RmCloseReport
+    CreateCase --> p
+    p -->|act| RmEngageCase
+    d -->|n| p
+    p -->|defer| RmDeferCase
+    RmEngageCase --> d
+    RmDeferCase --> d
+    c -->|n| v
+    d -->|y| RmCloseCase
 ```
 
 {% include-markdown "./_submit_report.md" heading-offset=1 %}
@@ -67,7 +72,6 @@ flowchart TB
 {% include-markdown "./_defer_case.md" heading-offset=1 %}
 
 {% include-markdown "./_engage_case.md" heading-offset=1 %}
-{% include-markdown "./_reengage_case.md" heading-offset=1 %}
 
 !!! tip "Re-Engaging a Case"
 

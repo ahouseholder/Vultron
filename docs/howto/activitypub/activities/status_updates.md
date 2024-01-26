@@ -17,6 +17,10 @@ flowchart TB
         CreateParticipantStatus
         CreateStatus
     end
+    start([Start])
+    start -.-> CreateStatus
+    start -.-> CreateParticipantStatus
+    start -.-> CreateNote
     CreateNote --> AddNoteToCase
     CreateStatus --> AddStatusToCase
     CreateParticipantStatus --> AddStatusToParticipant
@@ -38,7 +42,7 @@ response to a status update or a comment:
 - A status update to a participant can trigger a status update to the case.
 - A note might trigger a status update to a case or a participant.
 
-!!! tip "A Note on Notes"
+!!! tip "A Note on `as:Notes`"
 
     The ActivityStreams vocabulary includes an [`as:Note`](../objects.md) object, which is
     used to represent a comment or short post. We use this object to represent 

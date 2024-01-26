@@ -28,6 +28,8 @@ flowchart TB
     subgraph as:Remove
         RemoveParticipantFromCase
     end
+    start([Start])
+    start --> RmInviteToCase
     RmInviteToCase --> a{Accept?}
     a -->|y| RmAcceptInviteToCase
     a -->|n| RmRejectInviteToCase

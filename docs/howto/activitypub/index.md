@@ -45,7 +45,7 @@ Vultron protocol. These are described in the following sections:
 
 <div class="grid cards" markdown>
 
-- :material-bolt: [__Objects__](objects.md) specific to the Vultron AS vocabulary
-- :material-wrench: [__Activities__](activities/index.md) used in the Vultron AS vocabulary
+- :material-bolt: [**Objects**](objects.md) specific to the Vultron AS vocabulary
+- :material-wrench: [**Activities**](activities/index.md) used in the Vultron AS vocabulary
 
 </div>

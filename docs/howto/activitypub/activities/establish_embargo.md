@@ -2,8 +2,6 @@
 
 {% include-markdown "../../../includes/not_normative.md" %}
 
-{% include-markdown "./_em_blurb.md" %}
-
 The process to establish an embargo for a case can start in
 one of two ways:
 
@@ -11,6 +9,11 @@ one of two ways:
   way to establish an embargo.
 - The case owner can add an embargo to a case without proposing it first. In some circumstances, this might be an
   appropriate way to establish an embargo.
+
+<!-- for vertical spacing -->
+<br/>
+
+{% include-markdown "./_em_blurb.md" %}
 
 !!! question "Why would you add an embargo without asking first?"
 

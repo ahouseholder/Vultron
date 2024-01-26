@@ -20,17 +20,31 @@ a more specific action (accept, reject) on the part of the receiver.
 
 ```mermaid
 flowchart LR
-    subgraph as:Offer
-        RmSubmitReport
+    subgraph RM:Received
+        a{Accept?}
+        subgraph as:Read
+            RmReadReport
+        end
     end
-    subgraph as:Read
-        RmReadReport
+    subgraph RM:Start
+        subgraph as:Offer
+            RmSubmitReport
+        end
     end
-    subgraph as:Accept
-        RmValidateReport
-    end  
-    RmSubmitReport --> RmReadReport
-    RmSubmitReport --> RmValidateReport
+    subgraph RM:Accepted
+        subgraph as:Accept
+            RmValidateReport
+        end
+    end
+    subgraph RM:Invalid
+        subgraph as:Reject
+            RmInvalidateReport
+        end
+    end
+    a -->|y| RmValidateReport
+    a -->|undecided| RmReadReport
+    a -->|n| RmInvalidateReport
+    RmSubmitReport --> a
 ```
 
 !!! info "More Acknowledgements in the Ontology"
