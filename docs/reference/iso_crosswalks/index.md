@@ -1,5 +1,7 @@
 # ISO Crosswalk
 
+{% include-markdown "../../includes/not_normative.md" %}
+
 Three ISO standards are relevant to the Vultron Protocol.
 We cross-reference them here to help readers understand how they relate to the Vultron Protocol.
 
