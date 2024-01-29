@@ -26,7 +26,6 @@ For documentation purposes, we have divided the Vultron AS activities by user fl
 Each of these user flows shows the activities that are used to perform a specific
 task. The user flows are:
 
-
 <div class="grid cards" markdown>
 
 - :material-message-alert: [Reporting a Vulnerability](./report_vulnerability.md)
