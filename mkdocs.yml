@@ -7,9 +7,9 @@ nav:
   - Home: 'index.md'
   - Learning Vultron: 'tutorials/index.md'
   - Understanding Vultron:
-    - Introduction:
-        - Introduction: 'topics/index.md'
-        - Background: 'topics/background/index.md'
+    - Introduction: 'topics/index.md'
+    - Background:
+        - Context: 'topics/background/index.md'
         - Interoperability: 'topics/background/interoperability.md'
         - Defining CVD Success: 'topics/background/cvd_success.md'
         - Documentation Overview: 'topics/background/overview.md'

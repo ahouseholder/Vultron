@@ -26,13 +26,17 @@ suggestions for potential implementers.
 
 In this section, you will find:
 
-- an abstract [case object](case_object.md) for use in tracking MPCVD cases
-- Notes on the [core Vultron Protocol subprocesses](process_implementation.md) (RM, EM, and CS), including how the CS model might integrate with
+<div class="grid cards" markdown>
+
+- :material-database: an abstract [case object](case_object.md) for use in tracking MPCVD cases
+- :fontawesome-solid-gears: Notes on the [core Vultron Protocol subprocesses](process_implementation.md) (RM, EM, and CS), including how the CS model might integrate with
 other processes
-- An in-depth exploration of applying the [ActivityPub](activitypub/index.md) protocol as an underlying foundation to
+- :simple-activitypub: An in-depth exploration of applying the [ActivityPub](activitypub/index.md) protocol as an underlying foundation to
   the Vultron Protocol.
-- A few thoughts on the [Embargo Management Process](em_icalendar.md) and how it might be implemented using the `iCalendar` protocol.
-- [General notes](general_implementation.md) on future implementations.
+- :material-calendar-month: A few thoughts on the [Embargo Management Process](em_icalendar.md) and how it might be implemented using the `iCalendar` protocol.
+- :material-format-list-bulleted: [General notes](general_implementation.md) on future implementations.
+
+</div>
 
 Over time, we plan to expand this section of the documentation to include:
 
