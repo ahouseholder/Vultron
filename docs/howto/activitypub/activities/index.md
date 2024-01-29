@@ -26,16 +26,21 @@ For documentation purposes, we have divided the Vultron AS activities by user fl
 Each of these user flows shows the activities that are used to perform a specific
 task. The user flows are:
 
-- [Reporting a Vulnerability](./report_vulnerability.md)
-- [Initializing a Case](./initialize_case.md)
-- [Managing a Case](./manage_case.md)
-- [Transferring Case Ownership](./transfer_ownership.md)
-- [Suggest Actor for Case](./suggest_actor.md)
-- [Inviting an Actor to a Case](./invite_actor.md)
-- [Initializing a Participant](./initialize_participant.md)
-- [Managing Participants](./manage_participants.md)
-- [Establishing an Embargo](./establish_embargo.md)
-- [Managing an Embargo](./manage_embargo.md)
-- [Status Updates](./status_updates.md)
-- [Acknowledging a Report](./acknowledge.md)
-- [Error Handling](./error.md)
+
+<div class="grid cards" markdown>
+
+- :material-message-alert: [Reporting a Vulnerability](./report_vulnerability.md)
+- :material-text-box-check: [Acknowledging a Report](./acknowledge.md)
+- :material-briefcase-plus: [Initializing a Case](./initialize_case.md)
+- :material-briefcase-edit: [Managing a Case](./manage_case.md)
+- :fontawesome-solid-person-circle-plus: [Suggest Actor for Case](./suggest_actor.md)
+- :fontawesome-solid-people-arrows: [Inviting an Actor to a Case](./invite_actor.md)
+- :fontawesome-solid-person-circle-check: [Initializing a Participant](./initialize_participant.md)
+- :fontawesome-solid-people-group: [Managing Participants](./manage_participants.md)
+- :material-calendar-start: [Establishing an Embargo](./establish_embargo.md)
+- :material-calendar-edit: [Managing an Embargo](./manage_embargo.md)
+- :material-message-plus: [Status Updates](./status_updates.md)
+- :fontawesome-solid-arrow-right-to-city: [Transferring Case Ownership](./transfer_ownership.md)
+- :material-lightning-bolt-circle: [Error Handling](./error.md)
+
+</div>
