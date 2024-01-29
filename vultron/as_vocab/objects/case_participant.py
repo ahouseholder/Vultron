@@ -65,7 +65,6 @@ class CaseParticipant(VultronObject):
 
     actor: as_Actor
     name: str
-    # context: as_Object | as_Link | str
     case_roles: list[CVDRole] = field(
         default_factory=list,
         metadata=config(
@@ -77,7 +76,7 @@ class CaseParticipant(VultronObject):
     participant_case_name: str = field(
         default=None, metadata=config(exclude=exclude_if_none)
     )
-    context: VulnerabilityCase | as_Link | str = field(
+    context: "VulnerabilityCase" | as_Link | str = field(
         default=None, repr=True
     )
 
